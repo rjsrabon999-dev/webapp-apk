@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1e88e5">
+<title>রাইড শেয়ার অ্যাপ</title>
+<style>
+:root{--g:#1e88e5;--gd:#0d47a1;--gl:#e3f2fd;--o:#f57224;--ol:#fff3e8;--bg:#f4f6f8;--c:#fff;--t:#1d2a20;--m:#6b756d;--l:#e6e9e5;--sh:0 1px 3px rgba(0,0,0,.08),0 4px 14px rgba(0,0,0,.05)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:"Noto Sans Bengali","Hind Siliguri","Kalpurush",system-ui,sans-serif;background:var(--bg);color:var(--t);padding-bottom:70px;font-size:14px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+#top{background:linear-gradient(100deg,var(--gd),var(--g) 60%,#1565c0);color:#fff;padding:0 12px 12px;padding-top:env(safe-area-inset-top);position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.tb{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:8px}
+.tb a{background:rgba(255,255,255,.16);padding:3px 10px;border-radius:12px;font-weight:700}
+.lg{font-weight:800;font-size:21px;display:flex;justify-content:space-between;align-items:center}
+.lg small{font-size:11px;font-weight:400;opacity:.9}
+#sb{display:flex;margin-top:8px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+#sb input{border:0;flex:1;padding:12px;font:inherit;outline:0;min-width:0;border-radius:0}
+#sb span{background:var(--o);padding:0 18px;display:grid;place-items:center;font-size:18px;color:#fff;cursor:pointer}
+main{max-width:900px;margin:auto}
+.sec{background:var(--c);margin:8px 0;padding:14px;border-radius:0}
+@media(min-width:640px){.sec{border-radius:10px;margin:8px 8px}}
+.sec h3{margin:0 0 10px;font-size:16px}
+.ban{position:relative;height:140px;overflow:hidden;margin:0 0 8px;border-radius:10px;background:#e3f2fd}
+@media(min-width:640px){.ban{margin:8px}}
+.sl{position:absolute;inset:0;padding:22px;color:#fff;display:flex;flex-direction:column;justify-content:center;opacity:0;transition:opacity .6s;background-size:cover;background-position:center}
+.sl.on{opacity:1}.sl b{font-size:20px;max-width:75%;z-index:2;text-shadow:0 1px 4px rgba(0,0,0,0.6)}.sl span{margin-top:4px;opacity:.95;font-size:12px;z-index:2;text-shadow:0 1px 3px rgba(0,0,0,0.6)}
+.sl i{position:absolute;right:14px;bottom:2px;font-size:64px;font-style:normal;z-index:2}
+.sl.has-img::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.3);z-index:1}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 4px}
+.ci{text-align:center;font-size:12px;cursor:pointer}.ci div{width:56px;height:56px;margin:0 auto 4px;border-radius:50%;background:var(--gl);display:grid;place-items:center;font-size:28px;transition:.15s}
+.ci:active div{transform:scale(.93)}
+.ci.on div{outline:2px solid var(--o)}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 8px}
+@media(min-width:640px){.pg{grid-template-columns:repeat(3,1fr)}}
+.pc{background:var(--c);border-radius:12px;overflow:hidden;position:relative;box-shadow:var(--sh);display:flex;flex-direction:column}
+.im{aspect-ratio:4/3;background:#eef4fc;display:grid;place-items:center;font-size:60px;overflow:hidden;position:relative}
+.im img{width:100%;height:100%;object-fit:cover}
+.pi{padding:10px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.pn{font-size:14px;font-weight:700;line-height:18px;color:var(--gd);margin-bottom:4px}
+.pin-badge{position:absolute;top:8px;right:8px;background:#1e88e5;color:#fff;font-size:10px;padding:2px 6px;border-radius:8px;font-weight:700}
+.mt{font-size:12px;color:var(--m);margin-top:2px}
+.btn-action-group{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.btn{border:0;background:var(--o);color:#fff;font:inherit;font-weight:700;padding:10px 12px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;text-align:center}
+.btn:active{opacity:.85}
+.btn.b{background:#1e88e5}.btn.g{background:var(--g)}.btn.r{background:#d32f2f}.btn.w{background:#25d366}.btn.f{width:100%;margin-top:12px;display:block}.btn.s{padding:7px 8px;font-size:12px}
+.btn.o{background:#fff;color:var(--o);border:1px solid var(--o)}
+label{display:block;font-weight:700;font-size:13px;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cfd6cf;border-radius:8px;font:inherit;background:#fff}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--o);border-color:var(--o)}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--l);overflow-x:auto;position:sticky;top:0;z-index:5}
+.tabs button{flex:1;white-space:nowrap;border:0;background:none;padding:13px 10px;font:inherit;font-weight:700;color:var(--m);border-bottom:3px solid transparent;cursor:pointer}
+.tabs button.on{color:var(--o);border-color:var(--o)}
+.row{display:flex;gap:10px;align-items:center}.sp{justify-content:space-between}
+.ln{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--l)}
+.ln .im{width:70px;height:70px;font-size:36px;flex:none;aspect-ratio:auto;border-radius:8px}
+.tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:10px;background:var(--gl);color:var(--gd);font-weight:700}
+.tag.p{background:#fff3e0;color:#e65100}.tag.x{background:#ffebee;color:#c62828}
+.sm{display:flex;justify-content:space-between;padding:5px 0}.sm.t{font-weight:700;font-size:17px;border-top:1px dashed #ccc;margin-top:6px;padding-top:10px}
+.gr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{background:var(--ol);border-radius:10px;padding:14px;text-align:center}.stat b{display:block;font-size:22px;color:var(--o)}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--l);display:flex;z-index:30;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 10px rgba(0,0,0,.06)}
+nav button{flex:1;border:0;background:none;padding:7px 0;font:inherit;font-size:11px;color:var(--m);position:relative;cursor:pointer}
+nav button b{display:block;font-size:21px;font-weight:400}nav button.on{color:var(--o);font-weight:700}
+.bd{position:absolute;top:1px;left:55%;background:var(--o);color:#fff;border-radius:9px;font-size:10px;padding:1px 5px;font-style:normal}
+.emp{text-align:center;padding:50px 10px;color:var(--m)}.emp b{font-size:50px;display:block}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:12px}.trust div{background:var(--gl);border-radius:10px;padding:10px 4px}.trust b{display:block;font-size:22px}
+.sup{background:linear-gradient(120deg,var(--gd),var(--g));color:#fff;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:center}
+.sup .ic{font-size:34px}.sup b{font-size:17px;display:block}
+.sup .btn{background:#fff;color:var(--g);padding:9px 14px}
+details{border-bottom:1px solid var(--l);padding:10px 0}summary{font-weight:700;cursor:pointer}details p{margin:8px 0 0;color:var(--m)}
+#fab{position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:52px;height:52px;border-radius:50%;background:#25d366;color:#fff;border:0;font-size:24px;z-index:35;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer}
+#sh{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;display:none;align-items:flex-end;justify-content:center}
+#sh.on{display:flex}
+#sh .box{background:#fff;width:100%;max-width:520px;border-radius:16px 16px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+#sh h3{margin:0 0 4px}
+#ts{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:20px;opacity:0;transition:.25s;pointer-events:none;z-index:60;max-width:90%;text-align:center}
+#ts.on{opacity:1}
+footer{text-align:center;color:var(--m);font-size:12px;padding:18px 12px}
+.map-btn{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="top">
+<div class="tb"><span>🎧 কাস্টমার সাপোর্ট</span><a target="_blank" rel="noopener" href="https://wa.me/8801870580783?text=হেল্প%20দরকার">💬 WhatsApp সাপোর্ট</a></div>
+<div class="lg"><span>🚗 রাইড শেয়ার</span><small>নিরাপদ ও দ্রুত যাতায়াত</small></div>
+<div id="sb"><input id="q" placeholder="যেমন: কাশিগঞ্জ টু ইসলামপুর অথবা এলাকার নাম দিয়ে খুঁজুন..."><span id="go">🔍</span></div></div>
+<main id="v"></main>
+<button id="fab" data-a="sup" aria-label="কাস্টমার সাপোর্ট">💬</button>
+<div id="sh" data-a="shx"><div class="box">
+<h3>🎧 কাস্টমার সাপোর্ট</h3><div class="mt">যেকোনো সহায়তায় WhatsApp-এ সরাসরি যোগাযোগ করুন</div>
+<a class="btn w f" target="_blank" rel="noopener" href="https://wa.me/8801870580783?text=হেল্প%20দরকার">💬 WhatsApp-এ মেসেজ দিন</a>
+<button class="btn o f" data-a="supp">❓ সাধারণ প্রশ্নোত্তর (FAQ)</button>
+</div></div>
+<nav id="nv"><button data-n="home"><b>🏠</b>হোম</button><button data-n="cats"><b>🚘</b>যানবাহন</button><button data-n="cart"><b>🎟️</b>বুকিং কার্ট<i class="bd" id="cb"></i></button><button data-n="acc"><b>👤</b>অ্যাকাউন্ট</button></nav>
+<div id="ts"></div>
+
+<!-- Firebase SDK & Realtime Database Integration -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7A3EnsenLpm5cR7xYGRVX_j1EeMnKb3I",
+    authDomain: "ride-share-393e0.firebaseapp.com",
+    databaseURL: "https://ride-share-393e0-default-rtdb.firebaseio.com",
+    projectId: "ride-share-393e0",
+    storageBucket: "ride-share-393e0.firebasestorage.app",
+    messagingSenderId: "904394266283",
+    appId: "1:904394266283:web:482f2cf1122434664d09ee",
+    measurementId: "G-T13CH2MG96"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getDatabase(app);
+
+  // Expose firebase database functions globally for the app
+  window.dbRef = ref;
+  window.dbSet = set;
+  window.onValue = onValue;
+  window.rtdb = db;
+
+  // Real-time listener to sync rides from Firebase RTDB
+  onValue(ref(db, 'appData'), (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      if(data.U) { U = data.U; localStorage.setItem('ride_u', JSON.stringify(U)); }
+      if(data.P) { P = data.P; localStorage.setItem('ride_p', JSON.stringify(P)); }
+      if(data.O) { O = data.O; localStorage.setItem('ride_o', JSON.stringify(O)); }
+      if(data.Banners) { Banners = data.Banners; localStorage.setItem('ride_banners', JSON.stringify(Banners)); }
+      render();
+    }
+  });
+
+  window.syncToCloud = function() {
+    set(ref(db, 'appData'), {
+      U: U,
+      P: P,
+      O: O,
+      Banners: Banners
+    }).catch((error) => {
+      console.error("Cloud sync failed: ", error);
+    });
+  };
+</script>
+
+<script>
+const SUP='01870580783';
+const CATS=[['bike','বাইক','🏍️'],['cng','সিএনজি','🛺'],['auto','অটো','🛺'],['mishuk','মিশুক','🛺'],['car','প্রাইভেটকার','🚗'],['micro','মাইক্রোবাস','🚐'],['pickup','পিকআপ','🚚'],['bus','বাস','🚌']];
+const UN=['সিট','ট্রিপ','জন','ঘণ্টা','দিন'],EM=['🏍️','🛺','🚗','🚐','🚚','🚌'];
+const D=[
+  [1,'কাশিগঞ্জ টু ইসলামপুর স্পেশাল ট্রিপ',2,'car','🚗',800,1000,'সিট',3,'কাশিগঞ্জ বাস স্ট্যান্ড',false,'https://maps.google.com/?q=24.8949,91.8687'],
+  [2,'সিলেট ইমার্জেন্সি বাইক রাইড',2,'bike','🏍️',1500,0,'ট্রিপ',1,'উত্তরা, ঢাকা',false,'https://maps.google.com/?q=23.8759,90.3795'],
+  [3,'বরিশাল এসি মাইক্রোবাস সার্ভিস',3,'micro','🚐',1200,1500,'সিট',7,'সায়দাবাদ, ঢাকা',false,'https://maps.google.com/?q=23.7126,90.4300']
+];
+const DEFAULT_BANNERS=[
+  {title:'সরাসরি ড্রাইভারের সাথে কথা বলুন',sub:'কাঙ্ক্ষিত স্থান লিখে সহজেই ড্রাইভার খুঁজুন',icon:'🚗',bg:'linear-gradient(120deg,#1e88e5,#1565c0)',img:''},
+  {title:'দ্রুত ও নিরাপদ যাতায়াত',sub:'ফোন বা হোয়াটসঅ্যাপ মারফত সরাসরি বুকিং',icon:'📍',bg:'linear-gradient(120deg,#2e7d32,#4caf50)',img:''}
+];
+const DU=[
+  {em:'driver1@gmail.com',n:'কোদরত আলী',shop:'কোদরত ট্রাভেলস (ড্রাইভার)',wa:'01711000001',role:'d',pw:'x',blocked:false},
+  {em:'driver2@gmail.com',n:'রফিক আহমেদ',shop:'রফিক ট্রাভেলস (ড্রাইভার)',wa:'01811000002',role:'d',pw:'x',blocked:false}
+];
+
+const ld=(k,d)=>{try{const v=localStorage.getItem('ride_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+const H=s=>{let a=0xdeadbeef,b=0x41c6ce57;s='rs$'+s;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);return (4294967296*(2097151&b)+(a>>>0)).toString(36)};
+
+let U=ld('u',DU);
+let P=ld('p',D.map(a=>({id:a[0],name:a[1],sel:DU[a[2]==2?0:1].em,cat:a[3],em:a[4],pr:a[5],old:a[6],un:a[7],stk:a[8],pl:a[9],img:'',pinned:a[10]||false,map:a[11]||''})));
+let C=ld('c',[]);
+let O=ld('o',[]);
+let Banners=ld('banners',DEFAULT_BANNERS);
+let ME=ld('me',null);
+let ADMIN_PIN=ld('admin_pin','1234');
+let IS_ADMIN_LOGGED=ld('is_admin',false);
+
+const norm=()=>U.forEach(u=>{if(!u.h){u.pw=H(u.pw);u.h=1}});norm();
+
+function sv(){
+  try{
+    localStorage.setItem('ride_u',JSON.stringify(U));
+    localStorage.setItem('ride_p',JSON.stringify(P));
+    localStorage.setItem('ride_c',JSON.stringify(C));
+    localStorage.setItem('ride_o',JSON.stringify(O));
+    localStorage.setItem('ride_banners',JSON.stringify(Banners));
+    localStorage.setItem('ride_me',JSON.stringify(ME));
+    localStorage.setItem('ride_admin_pin',ADMIN_PIN);
+    localStorage.setItem('ride_is_admin',JSON.stringify(IS_ADMIN_LOGGED));
+    
+    // Sync with Firebase Cloud Realtime Database
+    if(window.syncToCloud) window.syncToCloud();
+  }catch(e){
+    toast('সেভ করতে সমস্যা হচ্ছে!');
+  }
+}
+
+const $=s=>document.querySelector(s),bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]||d),mo=n=>'৳'+bn(Math.round(n)),E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const me=()=>U.find(u=>u.em===ME),usr=em=>U.find(u=>u.em===em)||{n:'',shop:'ড্রাইভার',wa:''};
+const WA=/^(\+?88)?01[3-9]\d{8}$/,GM=/^[a-z0-9._]{6,30}@gmail\.com$/i;
+function toast(m){const t=$('#ts');if(!t)return;t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2300)}
+let S={v:'home',a:null,cat:'',q:'',tab:'login',st:'dash',admTab:'users',role:'p',img:'',qty:1,banImg:''};
+
+const supCard=()=>`<div class="sup"><div class="ic">🎧</div><div style="flex:1"><b>সাহায্য দরকার?</b><span style="opacity:.9;font-size:12px">কাস্টমার কেয়ার সাপোর্টে হোয়াটসঅ্যাপ করুন</span></div><a class="btn w s" target="_blank" rel="noopener" href="https://wa.me/88${SUP}?text=হেল্প%20দরকার">💬 WhatsApp</a></div>`;
+
+function pc(p){
+  const s=usr(p.sel);
+  const waNum = E(String(s.wa).replace(/^\+?88/,''));
+  const mapUrl = p.map ? p.map : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.pl)}`;
+  return `<div class="pc">
+    ${p.pinned?`<span class="pin-badge">📌 বিশেষ ট্রিপ</span>`:''}
+    <div class="im" data-a="open" data-id="${p.id}" style="cursor:pointer">
+      ${p.img?`<img src="${p.img}" alt="">`:p.em}
+    </div>
+    <div class="pi">
+      <div class="pn" data-a="open" data-id="${p.id}" style="cursor:pointer">${E(p.name)}</div>
+      <div class="mt">🚘 <b>${E(s.shop)} (${E(s.n)})</b></div>
+      <div class="mt">📍 বর্তমান স্থান: <b>${E(p.pl)}</b></div>
+      <a class="map-btn" target="_blank" rel="noopener" href="${E(mapUrl)}">🗺️ ড্রাইভারের লাইভ/ম্যাপ স্থান দেখুন</a>
+      <div class="btn-action-group">
+        <a class="btn g s" href="tel:${E(s.wa)}">📞 কল করুন</a>
+        <a class="btn w s" target="_blank" rel="noopener" href="https://wa.me/88${waNum}?text=${encodeURIComponent('আসসালামু আলাইকুম, "'+p.name+'" রাইডটি সম্পর্কে জানতে চাই')}">💬 WhatsApp</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function list(){
+  const q=S.q.toLowerCase();
+  let filtered = P.filter(p=>{
+    const s=usr(p.sel);
+    return p.stk>0 && !s.blocked && (!S.cat||p.cat==S.cat)&&(!q||(p.name+p.pl+s.shop+s.n).toLowerCase().includes(q))
+  });
+  filtered.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+  return filtered;
+}
+
+const FAQ=[['কীভাবে রাইড বুক করব?','কার্ডে থাকা কল বাটন দিয়ে সরাসরি ড্রাইভারকে ডায়াল করুন অথবা হোয়াটসঅ্যাপ অপশনে চাপ দিন।']];
+
+const VW={
+home(){
+const bannersHtml = Banners.map((b, index)=>{
+  const bgStyle = b.img ? `background-image:url('${b.img}')` : `background:${b.bg}`;
+  const hasImgClass = b.img ? 'has-img' : '';
+  return `<div class="sl ${index===0?'on':''} ${hasImgClass}" style="${bgStyle}"><b>${E(b.title||'')}</b><span>${E(b.sub||'')}</span><i>${E(b.icon||'')}</i></div>`;
+}).join('');
+const l=list();
+return `<div class="ban" id="bn">${bannersHtml}</div>
+<div class="sec"><div class="cg">${CATS.map(c=>`<div class="ci ${S.cat==c[0]?'on':''}" data-a="cat" data-id="${c[0]}"><div>${c[2]}</div>${c[1]}</div>`).join('')}</div></div>
+<div class="sec"><h3>${S.cat?CATS.find(c=>c[0]==S.cat)[1]:'উপলব্ধ ড্রাইভার ও রাইডসমূহ'} ${S.q?'— "'+E(S.q)+'"':''}</h3></div>
+${l.length?`<div class="pg">${l.map(pc).join('')}</div>`:'<div class="emp"><b>🔍</b>উক্ত স্থান বা রুটে কোনো ড্রাইভার পাওয়া যায়নি</div>'}
+<div class="sec" style="margin-top:14px"><div class="trust"><div><b>📞</b>ডিরেক্ট কল</div><div><b>💬</b>WhatsApp</div><div><b>🛡️</b>নিরাপদ ট্রিপ</div></div></div>
+<div class="sec">${supCard()}</div>
+<footer>© রাইড শেয়ার • ডিরেক্ট কল ও হোয়াটসঅ্যাপ সার্ভিস</footer>`},
+
+cats(){return `<div class="sec"><h3>সকল যানবাহন টাইপ</h3><div class="cg">${CATS.map(c=>`<div class="ci" data-a="cat" data-id="${c[0]}"><div>${c[2]}</div>${c[1]}</div>`).join('')}</div></div>`},
+
+sup(){return `<div class="sec" style="margin-top:0"><button class="btn s o" data-a="back">← পিছনে</button></div>
+<div class="sec"><h3>🎧 কাস্টমার সাপোর্ট</h3><div class="mt" style="margin-bottom:8px">যেকোনো সমস্যা থাকলে WhatsApp-এ সরাসরি যোগাযোগ করুন।</div>
+<div><a class="btn w f" target="_blank" rel="noopener" href="https://wa.me/88${SUP}?text=হেল্প%20দরকার">💬 WhatsApp মেসেজ</a></div></div>
+<div class="sec"><h3>❓ সাধারণ প্রশ্নোত্তর (FAQ)</h3>${FAQ.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('')}</div>`},
+
+pd(){const p=P.find(x=>x.id==S.a);if(!p)return VW.home();const s=usr(p.sel);
+const mapUrl = p.map ? p.map : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.pl)}`;
+return `<div class="sec" style="margin-top:0"><button class="btn s o" data-a="back">← পিছনে</button></div>
+<div class="im" style="background:#fff;aspect-ratio:auto;height:220px">${p.img?`<img src="${p.img}" alt="">`:`<span style="font-size:100px">${p.em}</span>`}</div>
+<div class="sec">
+  <div style="font-size:18px;font-weight:700">${E(p.name)}</div>
+  <div class="mt">📍 ড্রাইভারের বর্তমান স্থান: <b>${E(p.pl)}</b></div>
+  <div style="margin-top:6px"><a class="map-btn" target="_blank" rel="noopener" href="${E(mapUrl)}">🗺️ ম্যাপে ড্রাইভারের গাড়ি দেখুন</a></div>
+  <div class="mt" style="margin-top:8px">ভাড়া: <b>${mo(p.pr)} / ${p.un}</b></div>
+</div>
+<div class="sec">
+  <div class="mt">ড্রাইভার বিবরণ</div>
+  <b>🚘 ${E(s.shop)} (${E(s.n)})</b>
+  <div class="btn-action-group" style="margin-top:12px">
+    <a class="btn g" href="tel:${E(s.wa)}">📞 কল দিন</a>
+    <a class="btn w" target="_blank" rel="noopener" href="https://wa.me/88${E(String(s.wa).replace(/^\+?88/,''))}?text=${encodeURIComponent('আসসালামু আলাইকুম, "'+p.name+'" রাইড বুক করতে চাই')}">💬 WhatsApp</a>
+  </div>
+</div>
+<div class="gr" style="padding:0 8px"><button class="btn b" data-a="add" data-id="${p.id}">🎟️ লিস্টে রাখুন</button><button class="btn" data-a="buy" data-id="${p.id}">বুকিং ফর্ম খুলুন</button></div>
+<div class="sec">${supCard()}</div>`},
+
+cart(){const it=C.map(c=>({c,p:P.find(p=>p.id==c.id)})).filter(x=>x.p);
+if(!it.length)return `<div class="emp"><b>🎟️</b>কোনো রাইড যুক্ত নেই<br><br><button class="btn" data-a="nv" data-id="home">রাইড খুঁজুন</button></div>`;
+const sub=it.reduce((s,x)=>s+x.p.pr*x.c.q,0);
+return `<div class="sec"><h3>🎟️ বুকিং পছন্দ তালিকা (${bn(it.length)})</h3>${it.map(({c,p})=>`<div class="ln"><div class="im">${p.img?`<img src="${p.img}" alt="">`:p.em}</div><div style="flex:1"><div class="pn" style="height:auto">${E(p.name)}</div><div class="mt">ড্রাইভার: ${E(usr(p.sel).shop)}</div><div class="row sp" style="margin-top:6px"><b style="color:var(--o)">${mo(p.pr*c.q)}</b></div></div><button class="btn r s" data-a="rm" data-id="${p.id}" style="align-self:flex-start">✕</button></div>`).join('')}
+<div class="sm t"><span>মোট ভাড়া</span><span>${mo(sub)}</span></div><button class="btn f" data-a="chk">কনফার্মেশন পেজে যান</button></div>`},
+
+chk(){const u=me();if(!u){toast('আগে লগইন করুন');S.tab='login';return VW.acc()}
+const it=C.map(c=>({c,p:P.find(p=>p.id==c.id)})).filter(x=>x.p),sub=it.reduce((s,x)=>s+x.p.pr*x.c.q,0);
+return `<div class="sec"><h3>রাইড বুকিং ফর্ম</h3>
+<label>যাত্রীর নাম</label><input id="cn" value="${E(u.n)}">
+<label>WhatsApp / ফোন নম্বর</label><input id="cw" value="${E(u.wa)}" inputmode="tel">
+<label>পিকআপ ও গন্তব্য এলাকা/রুট লিখুন *</label><textarea id="ca" rows="2" placeholder="যেমন: পিকআপ: কাশিগঞ্জ, গন্তব্য: ইসলামপুর">${E(u.addr||'')}</textarea>
+<div class="sec"><div class="sm t"><span>আনুমানিক ভাড়া</span><span style="color:var(--o)">${mo(sub)}</span></div><button class="btn f" data-a="place">বুকিং নিশ্চিত করুন</button></div>`},
+
+acc(){const u=me();if(!u)return `<div class="tabs"><button data-a="tab" data-id="login" class="${S.tab=='login'?'on':''}">লগইন</button><button data-a="tab" data-id="reg" class="${S.tab=='reg'?'on':''}">নতুন অ্যাকাউন্ট</button></div><div class="sec">${S.tab=='login'?`<label>Gmail</label><input id="le" type="email" placeholder="example@gmail.com"><label>পাসওয়ার্ড</label><input id="lp" type="password"><button class="btn f" data-a="login">লগইন</button>`:
+`<div class="gr"><button class="btn ${S.role=='p'?'':'o'}" data-a="role" data-id="p">🚶 প্যাসেঞ্জার</button><button class="btn ${S.role=='d'?'':'o'}" data-a="role" data-id="d">🚘 ড্রাইভার</button></div>
+<label>পুরো নাম *</label><input id="rn"><label>Gmail *</label><input id="re" type="email"><label>WhatsApp/ফোন নম্বর *</label><input id="rw" type="tel"><label>পাসওয়ার্ড *</label><input id="rp" type="password">
+<div id="sf" style="display:${S.role=='d'?'block':'none'}"><label>সার্ভিস/গাড়ির নাম *</label><input id="rs"><label>রুট/এলাকা *</label><input id="ra" placeholder="যেমন: কাশিগঞ্জ টু ইসলামপুর"><label>বিকাশ/নগদ নম্বর *</label><input id="rb" type="tel"></div>
+<button class="btn f" data-a="reg">অ্যাকাউন্ট খুলুন</button>`}</div>
+<div class="sec" style="text-align:center"><button class="btn o s" data-a="adm_login_page">⚙️ এডমিন প্যানেল</button></div>`;
+
+return `<div class="sec" style="background:var(--g);color:#fff;margin-top:0"><div style="font-size:18px;font-weight:700">👤 ${E(u.n)}</div><div style="opacity:.9">${E(u.em)} • ${E(u.wa)}</div><span class="tag p">${u.role=='d'?'ড্রাইভার — '+E(u.shop):'প্যাসেঞ্জার'}</span></div>
+<div class="sec">${u.role=='d'?`<button class="btn g f" data-a="nv" data-id="sel" style="margin-top:0">🚘 ড্রাইভার সেন্টার</button>`:''}<button class="btn f" data-a="nv" data-id="ord" style="${u.role=='d'?'':'margin-top:0'}">📑 আমার রাইড বুকিং</button><button class="btn r f" data-a="out">লগআউট</button></div>
+<div class="sec" style="text-align:center"><button class="btn o s" data-a="adm_login_page">⚙️ এডমিন প্যানেল</button></div>`},
+
+ord(){const l=O.filter(o=>o.by==ME);if(!l.length)return `<div class="emp"><b>📑</b>আপনার কোনো রাইড হিস্ট্রি নেই</div>`;
+return `<div class="sec"><h3>📑 আমার রাইডসমূহ</h3>${l.map(o=>`<div style="border:1px solid var(--l);border-radius:10px;padding:10px;margin-bottom:10px"><div class="mt">#${bn(String(o.id).slice(-6))} • ${o.dt}</div>${o.it.map((i,k)=>{
+  const driverObj = usr(i.sel);
+  const driverWa = E(String(driverObj.wa).replace(/^\+?88/,''));
+  return `<div style="margin-top:8px"><div class="row sp"><span>${i.em} <b>${E(i.name)}</b><br><span class="mt">${E(driverObj.shop)}</span></span><span style="text-align:right"><b>${mo(i.pr*i.q)}</b><br><span class="tag ${i.st=='বাতিল'?'x':i.st=='কমপ্লিট'?'':'p'}">${i.st}</span></span></div>
+  <div class="btn-action-group">
+    <a class="btn g s" href="tel:${E(driverObj.wa)}">📞 কল দিন</a>
+    <a class="btn w s" target="_blank" rel="noopener" href="https://wa.me/88${driverWa}">💬 WhatsApp</a>
+  </div></div>`;
+}).join('')}</div>`).join('')}</div>`},
+
+sel(){const u=me();if(!u||u.role!='d')return VW.acc();
+const mp=P.filter(p=>p.sel==ME),mi=[];O.forEach(o=>o.it.forEach((i,k)=>{if(i.sel==ME)mi.push({o,i,k})}));
+const tabs=`<div class="tabs">${[['dash','📊 ড্যাশবোর্ড'],['add','➕ নতুন রাইড যোগ'],['prods','🚘 আমার রাইড'],['ords','📑 বুকিং']].map(t=>`<button data-a="st" data-id="${t[0]}" class="${S.st==t[0]?'on':''}">${t[1]}</button>`).join('')}</div>`;
+if(S.st=='dash')return tabs+`<div class="sec"><div class="gr"><div class="stat"><b>${bn(mp.length)}</b>পোস্টকৃত রাইড</div><div class="stat"><b>${bn(mi.length)}</b>বুকিং</div></div></div>`;
+if(S.st=='add')return tabs+`<div class="sec">
+<label>যানবাহনের ছবি</label><div class="row"><div class="im" id="pv" style="width:70px;height:70px;font-size:30px;flex:none">${S.img?`<img src="${S.img}" alt="">`:'📷'}</div><input type="file" id="pimg" accept="image/*"></div>
+<label>আইকন</label><select id="pe">${EM.map(e=>`<option>${e}</option>`).join('')}</select>
+<label>রাইড বা রুটের শিরোনাম *</label><input id="pn" placeholder="যেমন: কাশিগঞ্জ টু ইসলামপুর এক্সপ্রেস">
+<label>যানবাহন টাইপ *</label><select id="pc">${CATS.map(c=>`<option value="${c[0]}">${c[2]} ${c[1]}</option>`).join('')}</select>
+<div class="gr"><div><label>ভাড়া (৳) *</label><input id="pp" type="number"></div><div><label>একক</label><select id="pu">${UN.map(x=>`<option>${x}</option>`).join('')}</select></div><div><label>খালি সিট *</label><input id="ps" type="number" value="1"></div></div>
+<label>পিকআপ স্থান / এলাকা *</label><input id="pl" placeholder="যেমন: কাশিগঞ্জ মোড় / স্ট্যান্ড">
+<label>Google Maps লোকেশন লিংক (সরাসরি লাইভ লোকেশন দেখার জন্য)</label><input id="pm" placeholder="যেমন: https://maps.google.com/?q=23.8103,90.4125">
+<button class="btn f g" data-a="addp">রাইড প্রকাশ করুন</button></div>`;
+
+if(S.st=='prods')return tabs+`<div class="sec">${mp.length?mp.map(p=>`<div class="ln"><div class="im">${p.img?`<img src="${p.img}" alt="">`:p.em}</div><div style="flex:1"><b>${E(p.name)}</b><div class="mt">ভাড়া: ${mo(p.pr)} • সিট: ${bn(p.stk)}</div><div class="mt">📍 স্থান: ${E(p.pl)}</div></div><button class="btn r s" data-a="delp" data-id="${p.id}">🗑 মোছ</button></div>`).join(''):'<div class="emp">কোনো রাইড পোস্ট করা নেই</div>'}</div>`;
+
+return tabs+`<div class="sec">${mi.length?mi.map(({o,i,k})=>`<div style="border:1px solid var(--l);border-radius:10px;padding:10px;margin-bottom:10px">
+  <div class="mt">#${bn(String(o.id).slice(-6))} • ${o.dt}</div><b>${i.em} ${E(i.name)}</b>
+  <div class="mt">👤 প্যাসেঞ্জার: ${E(o.nm)} • 📍 ঠিকানা: ${E(o.ad)}</div>
+  <div class="btn-action-group">
+    <a class="btn g s" href="tel:${E(o.wa)}">📞 প্যাসেঞ্জারকে কল</a>
+    <a class="btn w s" target="_blank" rel="noopener" href="https://wa.me/88${E(String(o.wa).replace(/^\+?88/,''))}">💬 WhatsApp</a>
+  </div>
+</div>`).join(''):'<div class="emp">কোনো বুকিং আসেনি</div>'}</div>`;
+},
+
+admin(){
+  if(!IS_ADMIN_LOGGED){
+    return `<div class="sec" style="margin-top:0"><button class="btn s o" data-a="back">← পিছনে</button></div>
+    <div class="sec">
+      <h3>🛡️ এডমিন প্যানেল লগইন</h3>
+      <label>এডমিন পিন কোড দিন (ডিফল্ট: 1234)</label>
+      <input type="password" id="adm_pin_in" placeholder="PIN দিন">
+      <button class="btn f g" data-a="adm_login">লগইন করুন</button>
+    </div>`;
+  }
+
+  const tabs=`<div class="tabs">${[['users','👥 সকল ইউজার'],['prods','🚘 সব রাইড'],['banners','🖼️ ব্যানার'],['ords','📑 সব বুকিং'],['set','⚙️ সেটিংস']].map(t=>`<button data-a="adm_tab" data-id="${t[0]}" class="${S.admTab==t[0]?'on':''}">${t[1]}</button>`).join('')}</div>`;
+  
+  if(S.admTab=='users'){
+    return tabs+`<div class="sec">
+      <h3>👥 নিবন্ধিত ব্যবহারকারী (মোট: ${bn(U.length)})</h3>
+      ${U.map(u=>`<div class="ln">
+        <div style="flex:1">
+          <b>${E(u.n)} ${u.blocked?'<span class="tag x">ব্লকড</span>':''}</b>
+          <div class="mt">${E(u.em)} • ${E(u.wa)}</div>
+          <div class="mt">রোল: <b>${u.role=='d'?'ড্রাইভার ('+E(u.shop||'')+')':'প্যাসেঞ্জার'}</b></div>
+        </div>
+        <div>
+          <button class="btn ${u.blocked?'g':'r'} s" data-a="adm_toggle_user" data-id="${E(u.em)}">${u.blocked?'আনব্লক':'ব্লক'}</button>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  }
+  
+  if(S.admTab=='prods'){
+    return tabs+`<div class="sec">
+      <h3>🚘 পোস্ট করা সকল রাইড (মোট: ${bn(P.length)})</h3>
+      ${P.length?P.map(p=>`<div class="ln">
+        <div class="im">${p.img?`<img src="${p.img}" alt="">`:p.em}</div>
+        <div style="flex:1">
+          <b>${E(p.name)}</b>
+          <div class="mt">ড্রাইভার: ${E(usr(p.sel).n)} (${E(usr(p.sel).shop)})</div>
+        </div>
+        <div class="row">
+          <button class="btn r s" data-a="adm_del_prod" data-id="${p.id}">🗑 মোছ</button>
+        </div>
+      </div>`).join(''):'<div class="emp">কোনো রাইড নেই</div>'}
+    </div>`;
+  }
+
+  if(S.admTab=='banners'){
+    return tabs+`<div class="sec">
+      <h3>🖼️ হোমপেজ ব্যানার ম্যানেজমেন্ট</h3>
+      <label>মেমোরি/গ্যালারি থেকে সরাসরি ব্যানার পিকচার আপলোড করুন *</label>
+      <div class="row" style="margin-bottom:8px">
+        <div class="im" id="ban_pv" style="width:80px;height:55px;font-size:24px;flex:none;border-radius:6px;background:#eef4fc">${S.banImg?`<img src="${S.banImg}" alt="">`:'🖼️'}</div>
+        <input type="file" id="ban_img_file" accept="image/*">
+      </div>
+      
+      <label>ব্যানার শিরোনাম (Title) - ঐচ্ছিক</label>
+      <input id="ban_title" placeholder="যেমন: স্পেশাল ডিসকাউন্ট অফার">
+      <label>ছোট বিবরণ (Subtitle) - ঐচ্ছিক</label>
+      <input id="ban_sub" placeholder="যেমন: আজই আপনার রাইড বুক করুন">
+      
+      <button class="btn f g" data-a="adm_add_banner" style="margin-top:12px">➕ ব্যানার পোস্ট করুন</button>
+      
+      <hr style="margin:20px 0;border:0;border-top:1px solid var(--l)">
+      
+      <h3>বর্তমান ব্যানারসমূহ (${bn(Banners.length)})</h3>
+      ${Banners.map((b, idx)=>`<div class="ln">
+        <div class="im" style="width:65px;height:45px;border-radius:6px;overflow:hidden">${b.img?`<img src="${b.img}">`:b.icon||'🖼️'}</div>
+        <div style="flex:1">
+          <b>${E(b.title||'পিকচার ব্যানার')}</b>
+          <div class="mt">${E(b.sub||'')}</div>
+        </div>
+        <div>
+          <button class="btn r s" data-a="adm_del_banner" data-id="${idx}">🗑 মুছ</button>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  if(S.admTab=='ords'){
+    return tabs+`<div class="sec">
+      <h3>📑 সকল বুকিং হিস্ট্রি (মোট: ${bn(O.length)})</h3>
+      ${O.length?O.map(o=>`<div style="border:1px solid var(--l);border-radius:10px;padding:10px;margin-bottom:10px">
+        <div class="mt">#${bn(String(o.id).slice(-6))} • ${o.dt}</div>
+        <div class="mt">প্যাসেঞ্জার: <b>${E(o.nm)} (${E(o.wa)})</b></div>
+        <div class="mt">ঠিকানা: ${E(o.ad)}</div>
+      </div>`).join(''):'<div class="emp">কোনো বুকিং পাওয়া যায়নি</div>'}
+    </div>`;
+  }
+
+  if(S.admTab=='set'){
+    return tabs+`<div class="sec">
+      <h3>⚙️ এডমিন সেটিংস</h3>
+      <label>নতুন এডমিন পিন দিন</label>
+      <input type="password" id="adm_new_pin" placeholder="নতুন পিন">
+      <button class="btn f g" data-a="adm_change_pin">পিন পরিবর্তন করুন</button>
+      <hr style="margin:20px 0;border:0;border-top:1px solid var(--l)">
+      <button class="btn r f" data-a="adm_logout">এডমিন লগআউট</button>
+    </div>`;
+  }
+}
+};
+
+function render(){
+  const topElem = $('#top');
+  if(topElem) topElem.style.display=['home','cats'].includes(S.v)?'block':'none';
+  const vElem = $('#v');
+  if(vElem) vElem.innerHTML=(VW[S.v]||VW.home)();
+  
+  if(S.v=='home'){
+    let slides = document.querySelectorAll('.ban .sl');
+    if(slides.length > 1){
+      let currentSlide = 0;
+      clearInterval(window.bannerInterval);
+      window.bannerInterval = setInterval(()=>{
+        slides[currentSlide].classList.remove('on');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('on');
+      }, 3500);
+    }
+  }
+
+  const cb=$('#cb');
+  if(cb){cb.style.display=C.length?'block':'none';cb.textContent=bn(C.length);}
+  const m={home:'home',cats:'cats',pd:'home',cart:'cart',chk:'cart',acc:'acc',ord:'acc',sel:'acc',sup:'acc',admin:'acc'}[S.v];
+  document.querySelectorAll('#nv button').forEach(b=>b.classList.toggle('on',b.dataset.n==m));
+}
+
+document.addEventListener('input',e=>{
+  if(e.target.id=='q'){
+    S.q=e.target.value.trim();
+    if(S.v!='home')S.v='home';
+    render();
+    const qIn=$('#q');
+    if(qIn){ qIn.focus(); qIn.selectionStart = qIn.selectionEnd = qIn.value.length; }
+  }
+});
+
+document.addEventListener('change',e=>{
+  if(e.target.id=='pimg'&&e.target.files[0]){
+    const r=new FileReader();
+    r.onload=()=>{
+      S.img=r.result;
+      const pv=$('#pv');
+      if(pv) pv.innerHTML=`<img src="${S.img}" alt="">`;
+    };
+    r.readAsDataURL(e.target.files[0]);
+  }
+  if(e.target.id=='ban_img_file'&&e.target.files[0]){
+    const r=new FileReader();
+    r.onload=()=>{
+      S.banImg=r.result;
+      const bpv=$('#ban_pv');
+      if(bpv) bpv.innerHTML=`<img src="${S.banImg}" alt="">`;
+    };
+    r.readAsDataURL(e.target.files[0]);
+  }
+});
+
+const g=i=>($('#'+i)?.value||'').trim();
+const sh=on=>{ const el=$('#sh'); if(el) el.classList.toggle('on',on); }
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-a], [data-n]');if(!t)return;
+  
+  if(t.dataset.n){
+    S.q='';
+    const qIn=$('#q');if(qIn)qIn.value='';
+    S.cat='';
+    nav(t.dataset.n);
+    return;
+  }
+
+  const a=t.dataset.a,id=t.dataset.id;
+  if(a=='shx'){if(e.target===t)sh(false);return}
+  if(a=='sup')sh(true);
+  else if(a=='supp'){sh(false);nav('sup')}
+  else if(a=='open'){nav('pd',id)}
+  else if(a=='back')nav('home',null);
+  else if(a=='cat'){S.cat=S.cat==id?'':id;S.q='';const qIn=$('#q');if(qIn)qIn.value='';nav('home',null)}
+  else if(a=='nv')nav(id);
+  else if(a=='add'||a=='buy'){
+    const u=me();
+    if(!u){toast('আগে লগইন করুন');S.tab='login';return nav('acc')}
+    const p=P.find(x=>x.id==id);
+    if(p.sel==ME)return toast('নিজের পোস্টকৃত রাইড নিজে পছন্দের তালিকায় যোগ করা যাবে না');
+    let c=C.find(x=>x.id==id);
+    c ? c.q=1 : C.push({id:p.id,q:1});
+    sv();if(a=='buy')nav('chk');else{render();toast('✅ লিস্টে রাখা হয়েছে')}
+  }
+  else if(a=='rm'){C=C.filter(x=>x.id!=id);sv();render()}
+  else if(a=='chk'){if(!me()){toast('আগে অ্যাকাউন্ট প্রয়োজন');S.tab='login';return nav('acc')}nav('chk')}
+  else if(a=='place'){
+    const nm=g('cn'),wa=g('cw'),ad=g('ca');if(!nm||!ad)return toast('নাম ও ঠিকানা দিন');
+    const it=C.map(c=>({c,p:P.find(p=>p.id==c.id)})).filter(x=>x.p);
+    const sub=it.reduce((s,x)=>s+x.p.pr*x.c.q,0);
+    O.unshift({id:Date.now(),by:ME,dt:new Date().toLocaleDateString('bn-BD'),nm,wa,ad,pay:'ক্যাশ',tot:sub,it:it.map(x=>({pid:x.p.id,name:x.p.name,em:x.p.em,un:x.p.un,pr:x.p.pr,q:x.c.q,sel:x.p.sel,st:'পেন্ডিং'}))});
+    C=[];sv();toast('🎉 বুকিং সম্পন্ন!');nav('ord')
+  }
+  else if(a=='tab'){S.tab=id;render()}
+  else if(a=='role'){S.role=id;render()}
+  else if(a=='login'){
+    const leVal=g('le').toLowerCase(), lpVal=g('lp');
+    const u=U.find(x=>x.em==leVal&&x.pw==H(lpVal));
+    if(!u)return toast('Gmail বা পাসওয়ার্ড ভুল');
+    ME=u.em;sv();toast('স্বাগতম, '+u.n);nav('acc')
+  }
+  else if(a=='reg'){
+    const em=g('re').toLowerCase(),s=S.role=='d';
+    if(g('rn').length<3||!GM.test(em)||!WA.test(g('rw'))||g('rp').length<6)return toast('সঠিক তথ্য দিন');
+    U.push({em,n:g('rn'),wa:g('rw'),pw:H(g('rp')),h:1,role:s?'d':'p',shop:g('rs'),area:g('ra'),pay:g('rb'),blocked:false});
+    ME=em;sv();toast('🎉 অ্যাকাউন্ট তৈরি হয়েছে');nav(s?'sel':'acc')
+  }
+  else if(a=='out'){ME=null;sv();toast('লগআউট হয়েছে');nav('home',null)}
+  else if(a=='st'){S.st=id;render()}
+  else if(a=='addp'){
+    const n=g('pn'),pr=+g('pp'),sk=+g('ps'),map=g('pm');if(!n||!g('pl'))return toast('নাম ও স্থান দিন');
+    P.unshift({id:Date.now(),name:n,sel:ME,cat:g('pc'),em:g('pe'),pr,old:0,un:g('pu'),stk:sk,pl:g('pl'),img:S.img,pinned:false,map:map});
+    S.img='';S.st='prods';sv();toast('✅ রাইড প্রকাশিত');render()
+  }
+  else if(a=='delp'){if(confirm('রাইডটি মুছবেন?')){P=P.filter(x=>x.id!=id);sv();render()}}
+  
+  else if(a=='adm_login_page'){nav('admin')}
+  else if(a=='adm_login'){
+    const pin=g('adm_pin_in');
+    if(pin===ADMIN_PIN){
+      IS_ADMIN_LOGGED=true;
+      sv();
+      toast('✅ এডমিন লগইন সফল');
+      render();
+    } else {
+      toast('❌ ভুল এডমিন পিন');
+    }
+  }
+  else if(a=='adm_tab'){S.admTab=id;render()}
+  else if(a=='adm_toggle_user'){
+    const u=U.find(x=>x.em==id);
+    if(u){
+      u.blocked = !u.blocked;
+      sv();
+      toast(u.blocked ? '🚫 অ্যাকাউন্ট ব্লক করা হয়েছে' : '✅ অ্যাকাউন্ট সক্রিয় করা হয়েছে');
+      render();
+    }
+  }
+  else if(a=='adm_del_prod'){
+    if(confirm('এডমিন হিসেবে রাইডটি মুছবেন?')){
+      P=P.filter(x=>x.id!=id);
+      sv();
+      toast('🗑️ মুছে ফেলা হয়েছে');
+      render();
+    }
+  }
+  else if(a=='adm_add_banner'){
+    const title = g('ban_title'), sub = g('ban_sub');
+    if(!S.banImg && !title) return toast('ছবি নির্বাচন করুন অথবা শিরোনাম দিন');
+    Banners.push({
+      title: title, 
+      sub: sub, 
+      icon: S.banImg ? '' : '🚗', 
+      bg: 'linear-gradient(120deg,#1e88e5,#1565c0)',
+      img: S.banImg || ''
+    });
+    S.banImg = '';
+    sv();
+    toast('✅ ব্যানার যুক্ত হয়েছে');
+    render();
+  }
+  else if(a=='adm_del_banner'){
+    if(confirm('এই ব্যানারটি মুছে ফেলবেন?')){
+      Banners.splice(id, 1);
+      sv();
+      toast('🗑️ ব্যানার মুছে ফেলা হয়েছে');
+      render();
+    }
+  }
+  else if(a=='adm_change_pin'){
+    const np=g('adm_new_pin');
+    if(np.length < 4) return toast('পিন কমপক্ষে ৪ সংখ্যার দিন');
+    ADMIN_PIN=np;
+    sv();
+    toast('✅ এডমিন পিন সফলভাবে পরিবর্তন হয়েছে');
+    render();
+  }
+  else if(a=='adm_logout'){
+    IS_ADMIN_LOGGED=false;
+    sv();
+    toast('এডমিন প্যানেল থেকে লগআউট হয়েছে');
+    nav('home');
+  }
+});
+
+function nav(v,a){S.v=v;S.a=a;if(v=='home'&&a===undefined){S.cat=''}render();scrollTo(0,0)}
+render();
+</script>
+</body>
+</html>
