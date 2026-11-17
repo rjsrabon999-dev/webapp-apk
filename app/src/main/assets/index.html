@@ -88,7 +88,7 @@ input[type=file]{display:none}
     <h1>অ্যাডমিন প্যানেল</h1>
     <input type="password" id="pinIn" inputmode="numeric" placeholder="পিন দিন" autocomplete="off">
     <button class="btn-green" id="pinOk">প্রবেশ করুন</button>
-    <div class="hint">শুরুর পিন: 1234 (ভেতরে ঢুকে বদলে নিন)<br>⚠️ পিনটি শুধু এই ডিভাইসে সেভ থাকে। ফায়ারবেজ যুক্ত করার পর Firebase Auth দিয়ে সুরক্ষিত করুন।</div>
+    <div class="hint">শুরুর পিন: 1234 (ভেতরে ঢুকে বদলে নিন)<br>⚠️ পিনটি শুধু এই ডিভাইসে সেভ থাকে।</div>
   </div>
 </div>
 
@@ -109,7 +109,7 @@ input[type=file]{display:none}
 
     <div id="paneLv">
       <div class="introCard">
-        <div class="introT">🎬 শুরুর ভিডিও<br><span style="font-size:12px;color:#bda8e6;font-weight:400">অ্যাপ খুললেই এটা পপআপ আকারে ওপরে ভেসে উঠে নিজে চলবে। ইউজার থামাতে বা বন্ধ করতে পারবে না; শেষ হলে নিজে বন্ধ হবে। এখান থেকে যখন খুশি বদলাতে পারবেন।</span></div>
+        <div class="introT">🎬 শুরুর ভিডিও<br><span style="font-size:12px;color:#bda8e6;font-weight:400">অ্যাপ খুললেই এটা পপআপ আকারে ওপরে ভেসে উঠে নিজে চলবে।</span></div>
         <div class="esub" id="introInfo" style="margin:0 0 8px"></div>
         <video id="introPrev" controls playsinline preload="metadata" style="width:100%;max-height:30vh;background:#000;border-radius:12px;display:none"></video>
         <div class="ebtns" style="margin-top:8px">
@@ -184,39 +184,19 @@ input[type=file]{display:none}
 <div id="toast"></div>
 
 <script>
-/* =====================================================================
-   শেয়ার্ড ডেটা লেয়ার — ইউজার অ্যাপ ও অ্যাডমিন অ্যাপে হুবহু একই কোড
-   -------------------------------------------------------------------
-   ফায়ারবেজ কনফিগ নিচে বসানো আছে (দুই অ্যাপেই একই)। কনফিগ null করলে লোকাল মোডে চলবে।
-         তখন ছবি/ভিডিও/ভয়েস যাবে Firebase Storage এ, লেখা ও হাসির
-         গণনা যাবে Firestore এ, আর দুই অ্যাপ নিজে নিজেই সংযুক্ত হবে।
-
-   Firestore কালেকশন:  levels/{১-১০০}, stats/{১-১০০}, stats/_app, settings/texts, settings/intro
-   Storage পাথ:        levels/{n}/media_*  ও  levels/{n}/audio_*
-
-   ফায়ারবেজ রুলসের উদাহরণ (টেস্টের জন্য; পরে Auth দিয়ে অ্যাডমিন সুরক্ষিত করুন):
-     levels  : সবাই read, write শুধু অ্যাডমিন
-     stats   : সবাই read ও write (শুধু count/users বাড়ানো)
-   ===================================================================== */
 const TOTAL = 100;
 const FIREBASE_CONFIG = {
   apiKey: "__KEY_1__",
   authDomain: "__KEY_2__",
+  databaseURL: "https://hasi-app-ce484-default-rtdb.firebaseio.com",
   projectId: "hasi-app-ce484",
   storageBucket: "hasi-app-ce484.firebasestorage.app",
   messagingSenderId: "843876191491",
   appId: "1:843876191491:web:6a907428923a116b59ed36",
   measurementId: "G-FRCNLNJS42"
 };
-/* উদাহরণ:
-const FIREBASE_CONFIG = {
-  apiKey: "...", authDomain: "...", projectId: "...",
-  storageBucket: "...", messagingSenderId: "...", appId: "..."
-};
-*/
 const FB_VER = '10.12.2';
 
-/* ---------- সম্পাদনযোগ্য লেখা (অ্যাডমিন থেকে বদলানো যায়) ---------- */
 const DEFAULT_TEXTS = {
   splashTitle: '⚠️ সতর্কবার্তা ⚠️\nহাসলে অ্যাপস ডিলিট করে দিন!',
   splashSub: 'হাসতে চাইলে ওপেন করুন 😜',
@@ -240,7 +220,7 @@ const DEFAULT_TEXTS = {
   endPrev: '⬅ ১০০ নম্বর লেভেলে ফিরুন',
   defaultCaps: 'এই দৃশ্য দেখে না হেসে থাকা অসম্ভব!\nহাসি থামাতে পারছি না 🤣\nগম্ভীর থাকার চ্যালেঞ্জ — পারবেন?\nহাসলে কিন্তু অ্যাপ ডিলিট! 😜\nপেট ব্যথা হলে আমি দায়ী না!\nএকটু হাসুন, আয়ু বাড়ে!\nএখনো হাসেননি? তাহলে আপনি রোবট 🤖'
 };
-/* [কী, অ্যাডমিনে দেখানো নাম, বহুলাইন?] */
+
 const TEXT_FIELDS = [
   ['👋 শুরুর স্ক্রিন', null],
   ['splashTitle', 'বড় সতর্কবার্তা (নতুন লাইনে ভাগ করা যায়)', 1],
@@ -269,7 +249,6 @@ const TEXT_FIELDS = [
   ['endPrev', 'ফিরে যাওয়ার বাটন']
 ];
 
-
 function safeJSON(k, def){ try{ const v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; }catch(e){ return def; } }
 function setJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 function isVideo(f){ return (f.type && f.type.indexOf('video') === 0) || /\.(mp4|webm|mov|3gp|mkv|m4v)$/i.test(f.name || ''); }
@@ -291,7 +270,6 @@ function resizeBlob(file, max, q){
   });
 }
 
-/* ---------- লোকাল ডেটা লেয়ার (IndexedDB + localStorage) ---------- */
 async function localStore(){
   let db = null; const mem = {}; const urls = {};
   await new Promise(res=>{
@@ -392,7 +370,6 @@ async function localStore(){
   };
 }
 
-/* ---------- ফায়ারবেজ ডেটা লেয়ার (Firestore + Storage) ---------- */
 async function fbStore(cfg){
   const base = 'https://www.gstatic.com/firebasejs/' + FB_VER + '/';
   const A = await import(base + 'firebase-app.js');
@@ -508,7 +485,6 @@ async function createStore(){
   return Store;
 }
 
-
 (function(){
 "use strict";
 const bn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
@@ -535,7 +511,6 @@ async function guard(fn, okMsg){
   busy(false);
 }
 
-/* ---------- লগইন ---------- */
 const ready = createStore();
 $('pinOk').onclick = async ()=>{
   if($('pinIn').value !== pin){ toast('❌ ভুল পিন'); $('pinIn').value = ''; return; }
@@ -556,10 +531,9 @@ async function reload(){
 function renderModes(){
   const m = $('modeBox');
   if(Store.mode === 'firebase'){ m.className = 'mode fb'; m.textContent = '🟢 Firebase যুক্ত — ইউজার অ্যাপের সাথে লাইভ সংযুক্ত'; }
-  else { m.className = 'mode'; m.textContent = '📱 লোকাল মোড — ডেটা শুধু এই ব্রাউজারে সেভ হয়' + (storeNote ? ' ('+storeNote+')' : '') + '। Firebase যুক্ত করলে ইউজার অ্যাপের সাথে সংযুক্ত হবে।'; }
+  else { m.className = 'mode'; m.textContent = '📱 লোকাল মোড — ডেটা শুধু এই ব্রাউজারে সেভ হয়' + (storeNote ? ' ('+storeNote+')' : ''); }
 }
 
-/* ---------- ট্যাব ---------- */
 function tab(name){
   [['Lv','paneLv'],['St','paneSt'],['Tx','paneTx']].forEach(([k,p])=>{
     $('tab'+k).classList.toggle('on', k === name);
@@ -570,7 +544,6 @@ $('tabLv').onclick = ()=>tab('Lv');
 $('tabSt').onclick = ()=>{ tab('St'); guard(async ()=>{ stats = await Store.getStats(); renderStats(); }, ''); };
 $('tabTx').onclick = ()=>tab('Tx');
 
-/* ---------- শুরুর ভিডিও ---------- */
 function renderIntro(){
   const pv = $('introPrev');
   try{ pv.pause(); }catch(e){}
@@ -600,7 +573,6 @@ $('iDel').onclick = ()=>{
   guard(async ()=>{ await Store.delIntro(); intro = null; renderIntro(); }, '🗑️ মুছে ফেলা হয়েছে');
 };
 
-/* ---------- লেখা সম্পাদনা ---------- */
 function renderTexts(){
   const F = $('txForm'); F.innerHTML = '';
   TEXT_FIELDS.forEach(f=>{
@@ -624,7 +596,6 @@ $('txReset').onclick = ()=>{
   guard(async ()=>{ await Store.setTexts({}); texts = Object.assign({}, DEFAULT_TEXTS); renderTexts(); }, '↩️ ডিফল্টে ফেরানো হয়েছে');
 };
 
-/* ---------- লেভেল তালিকা ---------- */
 function renderGrid(){
   const g = $('agrid'); g.innerHTML = '';
   let count = 0, vids = 0, auds = 0;
@@ -648,7 +619,6 @@ function renderGrid(){
   $('aCount').textContent = bn(count); $('aVid').textContent = bn(vids); $('aAud').textContent = bn(auds);
 }
 
-/* ---------- হাসির হিসাব ---------- */
 function renderStats(){
   $('sUsers').textContent = bn(stats.users || 0);
   let total = 0, topN = 0, topC = 0;
@@ -666,7 +636,6 @@ function renderStats(){
   }
 }
 
-/* ---------- এডিটর ---------- */
 function openEditor(i){
   eid = Math.min(TOTAL, Math.max(1, i));
   const d = data[eid];
@@ -735,7 +704,6 @@ $('eAudDel').onclick = ()=>{
   guard(async ()=>{ await Store.delAudio(eid); await refreshOne(eid); openEditor(eid); }, '🗑️ ভয়েস মুছে ফেলা হয়েছে');
 };
 
-/* ---------- টুলস ---------- */
 $('aBulk').onclick = ()=>{
   let first = 1;
   for(let i = 1; i <= TOTAL; i++){ if(!(data[i] && data[i].mediaSrc)){ first = i; break; } }
