@@ -322,6 +322,10 @@ select{border:2px solid #e11d2e!important}
 <div><label for="kFmt">📐 ফরম্যাট</label><select id="kFmt"><option value="9:16">৯:১৬ (রিলস)</option><option value="16:9">১৬:৯ (ইউটিউব)</option><option value="1:1">১:১</option></select></div>
 <div><label for="kSp">⏱ কথার গতি <b id="kSpv">1.0x</b></label><input type="range" id="kSp" min="0.6" max="1.6" step="0.1" value="1"></div>
 <div class="full"><label class="tg"><input type="checkbox" id="kPh"> 🗣️ ফোনের আসল ভয়েসে শোনাও (শুধু প্রিভিউতে; ভিডিও-ফাইলে ঢোকে না)</label></div>
+<div><label for="kVs">🎤 কণ্ঠের ধরন</label><select id="kVs"><option value="auto">অটো (কার্টুন অনুযায়ী)</option><option value="cartoon">🐥 কার্টুন</option><option value="high">🐭 চিকন / ছোট্ট</option><option value="deep">🐻 ভারী / গম্ভীর</option><option value="robot">🤖 রোবট</option><option value="sweet">🎵 মিষ্টি</option></select></div>
+<div><label for="kVl">📱 ফোনের ভয়েস (প্রিভিউ)</label><select id="kVl"><option value="auto">অটো</option></select></div>
+<div class="full"><label for="kFile">🎙️ নিজের ভয়েস / অডিও ফাইল (ঐচ্ছিক — ভিডিওতে ঢুকে যাবে, কার্টুনের মুখ ওই কণ্ঠের সাথে নড়বে)</label><input type="file" id="kFile" accept="audio/*,video/*"> <span id="kFst" class="hint"></span>
+<label class="tg" style="margin-top:6px"><input type="checkbox" id="kMute"> 🔇 কার্টুনের টুংটাং কণ্ঠ বন্ধ (শুধু আমার ফাইলের কণ্ঠ)</label></div>
 </div>
 </section>
 <div id="kstage"><canvas id="kcv" width="720" height="1280"></canvas></div>
@@ -2422,8 +2426,9 @@ const CH={
 };
 const SCN={ঘর:'room',room:'room',স্কুল:'school',school:'school',পার্ক:'park',park:'park',রাত:'night',night:'night',সমুদ্র:'beach',beach:'beach'};
 const KW=[[/স্কুল|ক্লাস|পড়া|শিক্ষ/,'school'],[/পার্ক|গাছ|বাগান|খেল/,'park'],[/রাত|ঘুম|চাঁদ|তারা/,'night'],[/সমুদ্র|সাগর|নদী|বিচ/,'beach']];
+const VS={auto:null,cartoon:{t:'triangle',m:1},high:{t:'sine',m:1.8},deep:{t:'sawtooth',m:.5},robot:{t:'square',m:.9},sweet:{t:'sine',m:1.3}};
 const K={tl:[],cast:[],total:1,t:0,play:false,rec:false,last:0,li:-2,spk:false,sc:'room'};
-let AC=null,dest=null,master=null,rec=null,ch=[],cancel=false;
+let fdur=0,aud=new Audio(),aSrc=null,an=null,abuf=null,fOn=false,AC=null,dest=null,master=null,rec=null,ch=[],cancel=false;
 const findCh=n=>{n=n.trim().toLowerCase();return Object.keys(CH).find(k=>CH[k].a.some(a=>a.toLowerCase()===n));};
 function build(){
  const sp=+$('kSp').value;let t=.7,sc='room',cur=$('kDef').value;const tl=[],cast=[];
@@ -2442,7 +2447,7 @@ function build(){
   }
   t+=.55/sp;ln.t1=t;tl.push(ln);
  }
- K.tl=tl;K.cast=cast.length?cast:[$('kDef').value];K.total=Math.max(1.5,t+.3);
+ K.tl=tl;K.cast=cast.length?cast:[$('kDef').value];K.total=Math.max(1.5,t+.3,fdur+.3);
  return tl.length>0;
 }
 function size(){const f=$('kFmt').value;const [w,h]=f==='16:9'?[1280,720]:f==='1:1'?[900,900]:[720,1280];cv.width=w;cv.height=h;}
@@ -2498,6 +2503,7 @@ function person(k,cx,gy,s,t,open,act,seed){
 /* ---- মুখের খোলা-বন্ধ ---- */
 function mouth(ln,t){
  if(!ln||t<ln.t0)return 0;
+ if(fOn&&an&&!aud.paused){an.getByteTimeDomainData(abuf);let q=0;for(let i=0;i<abuf.length;i++){const v=(abuf[i]-128)/128;q+=v*v;}return Math.min(1,Math.sqrt(q/abuf.length)*5);}
  if(K.spk&&$('kPh').checked&&!K.rec)return .5+.5*Math.sin(t*16);
  for(const w of ln.w)for(let j=0;j<w.sy.length;j++){const s=w.sy[j];if(t>=s&&t<s+w.d)return Math.sin(Math.PI*(t-s)/w.d)*(.6+.4*hs(s*31));}
  return 0;
@@ -2526,8 +2532,8 @@ function blips(ln){
  ln.w.forEach(w=>w.sy.forEach((s,j)=>{
   const at=now+Math.max(0,s-K.t);if(s<K.t-.05)return;
   const o=AC.createOscillator(),g=AC.createGain(),f=AC.createBiquadFilter();
-  o.type=C.sq?'square':'triangle';const c=w.s.charCodeAt(Math.min(j*2,w.s.length-1))||65;
-  o.frequency.value=C.f*(.8+.55*hs(c))*(1+.12*Math.sin(j));f.type='lowpass';f.frequency.value=2200;
+  const V=VS[$('kVs').value];o.type=V?V.t:(C.sq?'square':'triangle');const c=w.s.charCodeAt(Math.min(j*2,w.s.length-1))||65;
+  o.frequency.value=C.f*(.8+.55*hs(c))*(1+.12*Math.sin(j))*(V?V.m:1);f.type='lowpass';f.frequency.value=2200;
   g.gain.setValueAtTime(0,at);g.gain.linearRampToValueAtTime(.3,at+.02);g.gain.linearRampToValueAtTime(0,at+w.d*.9);
   o.connect(f);f.connect(g);g.connect(master);o.start(at);o.stop(at+w.d+.05);
  }));
@@ -2535,7 +2541,7 @@ function blips(ln){
 function phone(ln){
  if(!window.speechSynthesis)return;speechSynthesis.cancel();
  const u=new SpeechSynthesisUtterance(ln.txt),bn=/[\u0980-\u09FF]/.test(ln.txt);u.lang=bn?'bn-BD':'en-US';u.pitch=CH[ln.who].pi;u.rate=+$('kSp').value;
- const v=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith(bn?'bn':'en'));if(v)u.voice=v;
+ const vl=speechSynthesis.getVoices(),sel=$('kVl').value;let v=sel!=='auto'?vl[+sel]:null;if(!v)v=vl.find(v=>v.lang.toLowerCase().startsWith(bn?'bn':'en'));if(v)u.voice=v;
  K.spk=true;u.onend=u.onerror=()=>{K.spk=false;};speechSynthesis.speak(u);
 }
 /* ---- প্লেব্যাক ---- */
@@ -2545,23 +2551,26 @@ function frame(ts){
   const ln=K.tl[K.li];
   if(!(ln&&K.spk&&$('kPh').checked&&!K.rec&&K.t>=ln.t1-.03))K.t+=dt;
   let li=-1;for(let i=0;i<K.tl.length;i++)if(K.t>=K.tl[i].t0)li=i;
-  if(li!==K.li&&li>=0){K.li=li;if($('kPh').checked&&!K.rec)phone(K.tl[li]);else blips(K.tl[li]);}
+  if(li!==K.li&&li>=0){K.li=li;if($('kPh').checked&&!K.rec)phone(K.tl[li]);else if(!$('kMute').checked)blips(K.tl[li]);}
   if(K.t>=K.total)finish();
   if(K.rec)$('kSt').textContent='🔴 রেকর্ড হচ্ছে… '+Math.round(K.t/K.total*100)+'% (স্ক্রিন চালু রাখুন, এই পেজ ছাড়বেন না)';
  }
  draw(K.t);requestAnimationFrame(frame);
 }
-function play(){if(!build()){toast('আগে কিছু লিখুন');return;}initAudio();K.play=true;$('kPlay').textContent='⏸ বিরতি';}
-function pause(){K.play=false;if(window.speechSynthesis)speechSynthesis.cancel();K.spk=false;$('kPlay').textContent='▶ চালাও';}
+function hook(){if(aSrc)return;aSrc=AC.createMediaElementSource(aud);an=AC.createAnalyser();an.fftSize=256;abuf=new Uint8Array(256);aSrc.connect(an);aSrc.connect(master);}
+function startAud(){if(!fOn)return;hook();try{aud.currentTime=Math.min(K.t,fdur);aud.play();}catch(e){}}
+function stopAud(){try{aud.pause();}catch(e){}}
+function play(){if(!build()){toast('আগে কিছু লিখুন');return;}initAudio();K.play=true;startAud();$('kPlay').textContent='⏸ বিরতি';}
+function pause(){K.play=false;stopAud();if(window.speechSynthesis)speechSynthesis.cancel();K.spk=false;$('kPlay').textContent='▶ চালাও';}
 function restart(){if(window.speechSynthesis)speechSynthesis.cancel();K.spk=false;K.t=0;K.li=-2;play();}
 function finish(){
- K.play=false;$('kPlay').textContent='▶ চালাও';
+ K.play=false;stopAud();$('kPlay').textContent='▶ চালাও';
  if(K.rec&&rec){K.rec=false;setTimeout(()=>{if(rec.state!=='inactive')rec.stop();},600);}
  K.t=K.total;
 }
 const toast=m=>window.toast&&window.toast(m);
 function dl(){
- if(K.rec){cancel=true;K.rec=false;K.play=false;if(rec&&rec.state!=='inactive')rec.stop();return;}
+ if(K.rec){stopAud();cancel=true;K.rec=false;K.play=false;if(rec&&rec.state!=='inactive')rec.stop();return;}
  if(!window.MediaRecorder||!cv.captureStream){toast('এই ব্রাউজারে ভিডিও রেকর্ড চলে না। Chrome ব্যবহার করুন।');return;}
  if(!build()){toast('আগে কিছু লিখুন');return;}
  initAudio();if(window.speechSynthesis)speechSynthesis.cancel();
@@ -2577,7 +2586,7 @@ function dl(){
   const a=$('kA');a.href=u;a.download='cartoon-video.'+(type.indexOf('mp4')>=0?'mp4':'webm');$('kRes').hidden=false;
   $('kSt').textContent='✅ ভিডিও তৈরি! নিচে দেখুন ও ডাউনলোড করুন।';$('kRes').scrollIntoView({behavior:'smooth',block:'center'});a.click();
  };
- K.t=0;K.li=-2;K.spk=false;K.rec=true;$('kRes').hidden=true;$('kDl').textContent='⏹ রেকর্ড বাতিল';rec.start(500);K.play=true;$('kPlay').textContent='⏸ বিরতি';
+ K.t=0;K.li=-2;K.spk=false;K.rec=true;$('kRes').hidden=true;$('kDl').textContent='⏹ রেকর্ড বাতিল';rec.start(500);K.play=true;startAud();$('kPlay').textContent='⏸ বিরতি';
 }
 /* ---- ট্যাব ---- */
 const nav=$('nav'),nb=nav.querySelector('button[data-k]'),pg=$('pgK');
@@ -2599,6 +2608,13 @@ $('kDef').onchange=$('kSc').onchange=()=>{if(!K.rec)build();};
 $('kPlay').onclick=()=>{if(K.rec)return;K.play?pause():(K.t>=K.total?restart():play());};
 $('kRe').onclick=()=>{if(!K.rec)restart();};
 $('kDl').onclick=dl;
+aud.preload='auto';
+$('kFile').onchange=e=>{const f=e.target.files[0];if(K.rec)return;
+ if(!f){fOn=false;fdur=0;$('kFst').textContent='';$('kMute').checked=false;build();return;}
+ if(aud.dataset.u)URL.revokeObjectURL(aud.dataset.u);const u=URL.createObjectURL(f);aud.dataset.u=u;aud.src=u;
+ aud.onloadedmetadata=()=>{fOn=true;fdur=aud.duration||0;$('kFst').textContent='✅ ফাইল যোগ হয়েছে ('+Math.round(fdur)+' সেকেন্ড)';$('kMute').checked=true;build();};};
+function fillV(){if(!window.speechSynthesis)return;const vs=speechSynthesis.getVoices(),s=$('kVl'),cur=s.value||'auto';s.innerHTML='<option value="auto">অটো</option>'+vs.map((v,i)=>'<option value="'+i+'">'+v.name+' ('+v.lang+')</option>').join('');s.value=cur;if(s.value!==cur)s.value='auto';}
+fillV();if(window.speechSynthesis)speechSynthesis.addEventListener('voiceschanged',fillV);
 build();requestAnimationFrame(t=>{K.last=t;frame(t);});
 })();
 </script>
