@@ -19,15 +19,6 @@ input{font-family:inherit}
 .btn-yellow{background:linear-gradient(135deg,#f7971e,#ffd200);color:#3a2600}
 .btn-gray{background:#3b2a5c}
 .btn-red{background:linear-gradient(135deg,#cb2d3e,#ef473a)}
-@keyframes bounce{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-12px) rotate(6deg)}}
-
-.center{align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 30%,#3b1a63,#150a26 70%)}
-.box{background:rgba(255,255,255,.07);border:2px dashed #ff416c;border-radius:22px;padding:22px 18px;max-width:380px;width:100%}
-.box .big{font-size:60px;animation:bounce 1.2s infinite}
-.box h1{font-size:22px;color:#ffd200;margin:12px 0 10px}
-.box input{width:100%;padding:14px;border-radius:14px;border:2px solid #ff416c;background:#2b1250;color:#fff;font-size:20px;text-align:center;margin-bottom:8px;outline:none}
-.box button{width:100%;margin-top:8px;font-size:17px;padding:14px}
-.hint{font-size:13px;color:#bda8e6;margin-top:10px;line-height:1.6}
 
 .ahead{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#2b1250}
 .ahead .t{flex:1;font-size:18px;font-weight:800;color:#ffd200}
@@ -81,19 +72,7 @@ input[type=file]{display:none}
 </head>
 <body>
 
-<!-- লগইন -->
-<div id="login" class="screen center active">
-  <div class="box">
-    <div class="big">🔐</div>
-    <h1>অ্যাডমিন প্যানেল</h1>
-    <input type="password" id="pinIn" inputmode="numeric" placeholder="পিন দিন" autocomplete="off">
-    <button class="btn-green" id="pinOk">প্রবেশ করুন</button>
-    <div class="hint">শুরুর পিন: 1234 (ভেতরে ঢুকে বদলে নিন)<br>⚠️ পিনটি শুধু এই ডিভাইসে সেভ থাকে।</div>
-  </div>
-</div>
-
-<!-- ড্যাশবোর্ড -->
-<div id="dash" class="screen">
+<div id="dash" class="screen active">
   <div class="ahead">
     <div class="t">⚙️ অ্যাডমিন</div>
     <button class="btn-gray" id="aRefresh">🔄</button>
@@ -125,8 +104,7 @@ input[type=file]{display:none}
       </div>
       <div class="atools">
         <button class="btn-blue" id="aBulk">📥 একসাথে অনেক বসান</button>
-        <button class="btn-gray" id="aPin">🔑 পিন বদলান</button>
-        <button class="btn-red" id="aClear" style="grid-column:span 2">🗑️ সব ছবি/ভিডিও/ভয়েস মুছুন</button>
+        <button class="btn-red" id="aClear">🗑️ সব ছবি/ভিডিও/ভয়েস মুছুন</button>
       </div>
       <div class="agrid" id="agrid"></div>
     </div>
@@ -151,7 +129,6 @@ input[type=file]{display:none}
   </div>
 </div>
 
-<!-- এডিটর -->
 <div id="editor" class="screen">
   <div class="ahead">
     <button class="btn-gray" id="eBack">⬅ তালিকা</button>
@@ -188,12 +165,11 @@ const TOTAL = 100;
 const FIREBASE_CONFIG = {
   apiKey: "__KEY_1__",
   authDomain: "__KEY_2__",
-  databaseURL: "https://hasi-app-ce484-default-rtdb.firebaseio.com",
-  projectId: "hasi-app-ce484",
-  storageBucket: "hasi-app-ce484.firebasestorage.app",
-  messagingSenderId: "843876191491",
-  appId: "1:843876191491:web:6a907428923a116b59ed36",
-  measurementId: "G-FRCNLNJS42"
+  projectId: "hasi-app-1",
+  storageBucket: "hasi-app-1.firebasestorage.app",
+  messagingSenderId: "242686676913",
+  appId: "1:242686676913:web:1854cfddce1eb81791b790",
+  measurementId: "G-ZKV2DC7SS8"
 };
 const FB_VER = '10.12.2';
 
@@ -248,6 +224,11 @@ const TEXT_FIELDS = [
   ['endSub', 'ছোট লেখা'],
   ['endPrev', 'ফিরে যাওয়ার বাটন']
 ];
+
+const bn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+const un = s => parseInt(String(s).replace(/[০-৯]/g, d => '০১২৩৪۵۶৭৮৯'.indexOf(d)), 10);
+const $ = id => document.getElementById(id);
+const EMOJIS = ['🤪','😜','🤡','🥴','😝','🤭','😹','🙈','🤣','😵‍💫','🐵','🦆','🐸','👻','🤓','🥸','😬','🫠','🐔','🐧','🦄','🤠','👽','🐷','🦥'];
 
 function safeJSON(k, def){ try{ const v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; }catch(e){ return def; } }
 function setJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
@@ -383,7 +364,16 @@ async function fbStore(cfg){
     id: n, type: d.mediaUrl ? (d.type || 'image') : '', caption: d.caption || '',
     mediaSrc: d.mediaUrl || '', audioSrc: d.audioUrl || '', audioName: d.audioName || '', loop: !!d.loop
   } : null;
-  async function raw(n){ const s = await F.getDoc(ld(n)); return s.exists() ? s.data() : null; }
+
+  // অ্যাডমিন অ্যাপের জন্যও মেমোরি ক্যাশ যুক্ত করা হলো যাতে ক্লিিক করার সাথে সাথে ডেটা ওপেন হয়
+  const memoryCache = {};
+
+  async function raw(n){
+    if(memoryCache[n]) return memoryCache[n];
+    const s = await F.getDoc(ld(n));
+    if(s.exists()){ memoryCache[n] = s.data(); return memoryCache[n]; }
+    return null;
+  }
   async function upload(path, blob){
     const r = S.ref(st, path);
     await S.uploadBytes(r, blob, blob.type ? {contentType: blob.type} : undefined);
@@ -396,7 +386,13 @@ async function fbStore(cfg){
     async getAllLevels(){
       const out = {};
       const snap = await F.getDocs(F.collection(fs, 'levels'));
-      snap.forEach(d=>{ const n = parseInt(d.id, 10); if(n >= 1 && n <= TOTAL) out[n] = toView(n, d.data()); });
+      snap.forEach(d=>{ 
+        const n = parseInt(d.id, 10); 
+        if(n >= 1 && n <= TOTAL) {
+          memoryCache[n] = d.data();
+          out[n] = toView(n, memoryCache[n]); 
+        } 
+      });
       return out;
     },
     async setMedia(n, file){
@@ -405,6 +401,7 @@ async function fbStore(cfg){
       const old = await raw(n);
       const path = 'levels/' + n + '/media_' + Date.now();
       const url = await upload(path, blob);
+      delete memoryCache[n];
       await F.setDoc(ld(n), {type: type, mediaUrl: url, mediaPath: path, updatedAt: Date.now()}, {merge: true});
       if(old && old.mediaPath) await rm(old.mediaPath);
     },
@@ -412,19 +409,22 @@ async function fbStore(cfg){
       const old = await raw(n);
       const path = 'levels/' + n + '/audio_' + Date.now();
       const url = await upload(path, file);
+      delete memoryCache[n];
       await F.setDoc(ld(n), {audioUrl: url, audioPath: path, audioName: file.name || 'ভয়েস', updatedAt: Date.now()}, {merge: true});
       if(old && old.audioPath) await rm(old.audioPath);
     },
-    async setCaption(n, t){ await F.setDoc(ld(n), {caption: t, updatedAt: Date.now()}, {merge: true}); },
-    async setLoop(n, v){ await F.setDoc(ld(n), {loop: !!v}, {merge: true}); },
+    async setCaption(n, t){ delete memoryCache[n]; await F.setDoc(ld(n), {caption: t, updatedAt: Date.now()}, {merge: true}); },
+    async setLoop(n, v){ delete memoryCache[n]; await F.setDoc(ld(n), {loop: !!v}, {merge: true}); },
     async delMedia(n){
       const o = await raw(n); if(!o) return;
       await rm(o.mediaPath);
+      delete memoryCache[n];
       await F.setDoc(ld(n), {type: '', mediaUrl: '', mediaPath: ''}, {merge: true});
     },
     async delAudio(n){
       const o = await raw(n); if(!o) return;
       await rm(o.audioPath);
+      delete memoryCache[n];
       await F.setDoc(ld(n), {audioUrl: '', audioPath: '', audioName: '', loop: false}, {merge: true});
     },
     async clearAll(){
@@ -432,6 +432,7 @@ async function fbStore(cfg){
         const o = await raw(n);
         if(o){ await rm(o.mediaPath); await rm(o.audioPath); await F.deleteDoc(ld(n)); }
       }
+      Object.keys(memoryCache).forEach(k=>delete memoryCache[k]);
     },
     async react(n){ await F.setDoc(F.doc(fs, 'stats', String(n)), {count: F.increment(1)}, {merge: true}); },
     async trackUser(){
@@ -478,25 +479,16 @@ let Store = null;
 let storeNote = '';
 async function createStore(){
   if(FIREBASE_CONFIG && FIREBASE_CONFIG.apiKey){
-    try{ Store = await Promise.race([fbStore(FIREBASE_CONFIG), new Promise((_, rej)=>setTimeout(()=>rej(new Error('timeout')), 10000))]); return Store; }
+    try{ Store = await Promise.race([fbStore(FIREBASE_CONFIG), new Promise((_, rej)=>setTimeout(()=>rej(new Error('timeout')), 5000))]); return Store; }
     catch(e){ storeNote = 'ফায়ারবেজ চালু হয়নি — লোকাল মোডে চলছে'; try{ console.warn(e); }catch(_){} }
   }
   Store = await localStore();
   return Store;
 }
 
-(function(){
-"use strict";
-const bn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
-const un = v => parseInt(String(v).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d)), 10);
-const $ = id => document.getElementById(id);
-const EMOJIS = ['🤪','😜','🤡','🥴','😝','🤭','😹','🙈','🤣','😵‍💫','🐵','🦆','🐸','👻','🤓','🥸','😬','🫠','🐔','🐧','🦄','🤠','👽','🐷','🦥'];
-
 let data = {}, stats = {users:0, reacts:{}}, eid = 1;
 let texts = Object.assign({}, DEFAULT_TEXTS);
 let intro = null;
-let pin = '1234';
-try{ pin = localStorage.getItem('hasi_admin_pin') || '1234'; }catch(e){}
 const prev = new Audio();
 
 let tt;
@@ -512,13 +504,13 @@ async function guard(fn, okMsg){
 }
 
 const ready = createStore();
-$('pinOk').onclick = async ()=>{
-  if($('pinIn').value !== pin){ toast('❌ ভুল পিন'); $('pinIn').value = ''; return; }
-  await guard(async ()=>{ await ready; await reload(); }, '');
+
+ready.then(async ()=>{
+  await guard(async ()=>{ await reload(); }, '');
   show('dash');
-};
-$('pinIn').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('pinOk').click(); });
-$('aExit').onclick = ()=>{ stopAll(); $('pinIn').value = ''; show('login'); };
+});
+
+$('aExit').onclick = ()=>{ stopAll(); try{ window.close(); }catch(e){} toast('🚪 বের হয়েছেন'); };
 $('aRefresh').onclick = ()=>guard(reload, '🔄 নতুন তথ্য এসেছে');
 
 async function reload(){
@@ -728,18 +720,10 @@ $('fileMany').onchange = async e=>{
   renderGrid(); busy(false);
   toast('✅ ' + bn(ok) + 'টি ফাইল বসানো হয়েছে');
 };
-$('aPin').onclick = ()=>{
-  const v = prompt('নতুন পিন লিখুন (কমপক্ষে ৪ অক্ষর):');
-  if(v === null) return;
-  if(v.length < 4){ toast('❌ পিন খুব ছোট'); return; }
-  pin = v; try{ localStorage.setItem('hasi_admin_pin', pin); }catch(e){}
-  toast('🔑 পিন বদলানো হয়েছে');
-};
 $('aClear').onclick = ()=>{
   if(!confirm('সব ছবি, ভিডিও, ভয়েস ও লেখা মুছে যাবে! নিশ্চিত?')) return;
   guard(async ()=>{ await Store.clearAll(); data = {}; renderGrid(); }, '🗑️ সব মুছে ফেলা হয়েছে');
 };
-})();
 </script>
 </body>
 </html>
