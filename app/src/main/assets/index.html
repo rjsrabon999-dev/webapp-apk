@@ -3,120 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#1a0b2e">
-<title>না হেসে দেখাও 😂</title>
+<meta name="theme-color" content="#150a26">
+<title>না হেসে দেখাও — অ্যাডমিন ⚙️</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#1a0b2e;color:#fff;font-family:"Noto Sans Bengali","Kalpurush","SolaimanLipi",system-ui,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none}
+html,body{height:100%;background:#150a26;color:#fff;font-family:"Noto Sans Bengali","Kalpurush","SolaimanLipi",system-ui,sans-serif;overflow:hidden}
 .screen{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden}
 .screen.active{display:flex}
-button{font-family:inherit;border:none;color:#fff;cursor:pointer;border-radius:16px;padding:13px 16px;font-size:16px;font-weight:700;transition:transform .12s}
+button{font-family:inherit;border:none;color:#fff;cursor:pointer;border-radius:14px;padding:12px 14px;font-size:15px;font-weight:700;transition:transform .12s}
 button:active{transform:scale(.94)}
-.btn-main{background:linear-gradient(135deg,#ff416c,#ff4b2b);box-shadow:0 6px 18px rgba(255,65,108,.45)}
-.btn-green{background:linear-gradient(135deg,#11998e,#38ef7d);color:#05301f;box-shadow:0 6px 18px rgba(56,239,125,.35)}
+input{font-family:inherit}
+.btn-main{background:linear-gradient(135deg,#ff416c,#ff4b2b)}
+.btn-green{background:linear-gradient(135deg,#11998e,#38ef7d);color:#05301f}
+.btn-blue{background:linear-gradient(135deg,#396afc,#2948ff)}
 .btn-yellow{background:linear-gradient(135deg,#f7971e,#ffd200);color:#3a2600}
 .btn-gray{background:#3b2a5c}
-@keyframes bounce{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
-@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+.btn-red{background:linear-gradient(135deg,#cb2d3e,#ef473a)}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-12px) rotate(6deg)}}
 
-.center{align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 30%,#4a1d7a,#1a0b2e 70%)}
+.center{align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 30%,#3b1a63,#150a26 70%)}
 .box{background:rgba(255,255,255,.07);border:2px dashed #ff416c;border-radius:22px;padding:22px 18px;max-width:380px;width:100%}
-.box .big{font-size:84px;animation:bounce 1.2s infinite}
-.box h1{font-size:25px;line-height:1.5;color:#ffd200;margin:14px 0 6px;text-shadow:0 0 18px rgba(255,210,0,.5)}
-.box p{font-size:19px;line-height:1.7;margin-bottom:22px;color:#ffd6e0}
-.box button{width:100%;margin-top:10px;font-size:18px;padding:15px}
+.box .big{font-size:60px;animation:bounce 1.2s infinite}
+.box h1{font-size:22px;color:#ffd200;margin:12px 0 10px}
+.box input{width:100%;padding:14px;border-radius:14px;border:2px solid #ff416c;background:#2b1250;color:#fff;font-size:20px;text-align:center;margin-bottom:8px;outline:none}
+.box button{width:100%;margin-top:8px;font-size:17px;padding:14px}
+.hint{font-size:13px;color:#bda8e6;margin-top:10px;line-height:1.6}
 
-#gate{cursor:pointer}
-.lvlnum{font-size:58px;font-weight:900;color:#ffd200;margin:10px 0 4px;text-shadow:0 0 22px rgba(255,210,0,.6)}
-.lvlsub{font-size:16px;color:#bda8e6;margin-bottom:14px}
-.pbar{height:10px;background:#3b2a5c;border-radius:8px;overflow:hidden;margin:6px 0 20px;width:100%;max-width:300px}
-.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff416c,#ffd200);transition:width .4s}
-.tapHint{font-size:20px;color:#fff;animation:pulse 1.4s infinite;font-weight:700}
-.prevBtn{position:absolute;bottom:22px;left:18px;padding:9px 16px;font-size:14px}
-#flash{position:fixed;inset:0;z-index:80;background:#1a0b2e;display:none;align-items:center;justify-content:center}
-#flash.on{display:flex}
-#flash div{font-size:62px;font-weight:900;color:#ffd200;text-shadow:0 0 30px rgba(255,210,0,.8);animation:floatUp 1.1s ease-in-out forwards}
-@keyframes floatUp{0%{opacity:0;transform:translateY(80px) scale(.5)}35%{opacity:1;transform:translateY(0) scale(1.25)}70%{opacity:1;transform:translateY(-20px) scale(1.1)}100%{opacity:0;transform:translateY(-140px) scale(1)}}
-
-#media .top{padding:12px;text-align:center;background:#2b1250;font-size:19px;font-weight:800;color:#ffd200}
-.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;min-height:0}
-.frame{width:100%;max-width:560px;flex:1;min-height:0;background:#000;border:4px solid #ffd200;border-radius:22px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 28px rgba(255,210,0,.35)}
-.frame img,.frame video{max-width:100%;max-height:100%;object-fit:contain;background:#000}
-.ph{text-align:center;padding:14px}
-.ph .em{font-size:110px;animation:bounce 1.4s infinite}
-.ph small{display:block;margin-top:8px;color:#bda8e6;font-size:15px}
-.cap{margin-top:10px;font-size:19px;font-weight:700;text-align:center;min-height:28px;padding:0 8px;line-height:1.5}
-.react{padding:2px 12px 6px}
-.react button{width:100%;font-size:18px;padding:13px}
-.react button.done{opacity:.85;background:linear-gradient(135deg,#7b4397,#dc2430)}
-.nextwrap{padding:4px 12px 16px;display:flex;gap:8px}
-.nextwrap button{flex:1;font-size:20px;padding:16px}
-.nextwrap #prevBtn{flex:0 0 32%;font-size:16px}
-.laugh{position:fixed;font-size:34px;pointer-events:none;animation:fly 1.3s ease-out forwards;z-index:50}
-@keyframes fly{0%{opacity:1;transform:translateY(0) scale(.6)}100%{opacity:0;transform:translateY(-260px) scale(1.5) rotate(25deg)}}
-#toast{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);background:#000d;padding:10px 18px;border-radius:20px;font-size:15px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none;max-width:88%;text-align:center}
+.ahead{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#2b1250}
+.ahead .t{flex:1;font-size:18px;font-weight:800;color:#ffd200}
+.ahead button{padding:8px 12px;font-size:14px}
+.ascroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 12px 30px}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;padding:10px 4px;font-size:14px;background:#3b2a5c}
+.tabs button.on{background:linear-gradient(135deg,#ff416c,#ff4b2b)}
+.mode{font-size:13px;text-align:center;padding:6px;border-radius:10px;margin-bottom:10px;background:#2f1a52;color:#bda8e6}
+.mode.fb{background:#0f3d2b;color:#7dffb0}
+.astats{display:flex;gap:8px;margin-bottom:10px}
+.astat{flex:1;background:#2f1a52;border-radius:12px;padding:8px 4px;text-align:center;font-size:12px}
+.astat b{display:block;font-size:19px;color:#38ef7d}
+.atools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.atools button{padding:11px 6px;font-size:14px}
+.agrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.at{position:relative;aspect-ratio:1;border-radius:12px;background:#2f1a52;border:2px solid #4b3080;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;cursor:pointer}
+.at img{width:100%;height:100%;object-fit:cover}
+.at.has{border-color:#38ef7d}
+.at .n{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);font-size:11px;font-weight:800;padding:1px 6px;border-radius:8px}
+.at .a{position:absolute;bottom:2px;right:3px;font-size:13px}
+.at .c{position:absolute;bottom:2px;left:3px;font-size:11px;font-weight:800;background:rgba(255,65,108,.9);padding:0 5px;border-radius:8px}
+@media(min-width:600px){.agrid{grid-template-columns:repeat(8,1fr)}}
+.efr{width:100%;max-width:520px;margin:0 auto;aspect-ratio:1;max-height:46vh;background:#000;border:3px solid #ffd200;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.efr img,.efr video{max-width:100%;max-height:100%;object-fit:contain}
+.efr .em{font-size:70px}
+.ecap{text-align:center;margin:10px 0;font-size:17px;font-weight:700;min-height:24px}
+.esub{text-align:center;margin:-4px 0 10px;font-size:14px;color:#bda8e6}
+.ebtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:520px;margin:0 auto}
+.ebtns .full{grid-column:span 2}
+.ebtns button{padding:13px 6px;font-size:15px}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:13px;color:#ffd200;margin-bottom:4px;line-height:1.5}
+.fld input,.fld textarea{width:100%;padding:11px;border-radius:12px;border:2px solid #4b3080;background:#2b1250;color:#fff;font-size:16px;font-family:inherit;outline:none}
+.fld textarea{min-height:64px;resize:vertical}
+.fld input:focus,.fld textarea:focus{border-color:#ff416c}
+.introCard{background:#2f1a52;border:2px solid #4b3080;border-radius:14px;padding:12px;margin-bottom:12px}
+.introT{font-size:15px;font-weight:800;color:#ffd200;margin-bottom:6px;line-height:1.5}
+.fgrp{font-size:16px;font-weight:800;color:#38ef7d;margin:18px 0 10px;padding-bottom:4px;border-bottom:1px solid #3b2a5c}
+.srow{display:flex;align-items:center;gap:10px;background:#2f1a52;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.srow .no{width:38px;font-weight:900;color:#ffd200}
+.srow .bar{flex:1;height:10px;background:#3b2a5c;border-radius:6px;overflow:hidden}
+.srow .bar i{display:block;height:100%;background:linear-gradient(90deg,#ff416c,#ffd200)}
+.srow .cnt{min-width:46px;text-align:right;font-weight:800;color:#38ef7d}
+#busy{position:fixed;inset:0;background:#000a;z-index:90;display:none;align-items:center;justify-content:center;font-size:20px;font-weight:700}
+#busy.on{display:flex}
+#toast{position:fixed;left:50%;bottom:60px;transform:translateX(-50%);background:#000d;padding:10px 18px;border-radius:20px;font-size:15px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none;max-width:88%;text-align:center}
 #toast.show{opacity:1}
+input[type=file]{display:none}
 </style>
 </head>
 <body>
 
-<!-- ১) স্প্ল্যাশ -->
-<!-- ১) স্প্ল্যাশ -->
-<div id="splash" class="screen center active">
+<!-- লগইন -->
+<div id="login" class="screen center active">
   <div class="box">
-    <div class="big">🤣</div>
-    <h1 id="splashTitle"></h1>
-    <p id="splashSub"></p>
-    <button class="btn-main" id="openBtn">😂 হাসতে চাইলে ওপেন করুন</button>
-    <button class="btn-gray" id="noBtn">😐 আমি হাসি না, বের হব</button>
+    <div class="big">🔐</div>
+    <h1>অ্যাডমিন প্যানেল</h1>
+    <input type="password" id="pinIn" inputmode="numeric" placeholder="পিন দিন" autocomplete="off">
+    <button class="btn-green" id="pinOk">প্রবেশ করুন</button>
+    <div class="hint">শুরুর পিন: 1234 (ভেতরে ঢুকে বদলে নিন)<br>⚠️ পিনটি শুধু এই ডিভাইসে সেভ থাকে। ফায়ারবেজ যুক্ত করার পর Firebase Auth দিয়ে সুরক্ষিত করুন।</div>
   </div>
 </div>
 
-<!-- ২) লেভেল গেট: স্ক্রিনে যেকোনো জায়গায় ট্যাপ করলেই খুলবে -->
-<div id="gate" class="screen center">
-  <div style="font-size:80px;animation:bounce 1.2s infinite" id="gateEm">🤪</div>
-  <div class="lvlnum" id="gateNum">লেভেল ১</div>
-  <div class="lvlsub" id="gateSub">১ / ১০০</div>
-  <div class="pbar"><i id="gateBar"></i></div>
-  <div class="tapHint" id="tapHint"></div>
-  <button class="btn-yellow prevBtn" id="gatePrev">⬅ আগের লেভেল</button>
+<!-- ড্যাশবোর্ড -->
+<div id="dash" class="screen">
+  <div class="ahead">
+    <div class="t">⚙️ অ্যাডমিন</div>
+    <button class="btn-gray" id="aRefresh">🔄</button>
+    <button class="btn-gray" id="aExit">🚪 বের হন</button>
+  </div>
+  <div class="ascroll">
+    <div class="mode" id="modeBox"></div>
+    <div class="tabs">
+      <button id="tabLv" class="on">🎞️ লেভেল</button>
+      <button id="tabSt">📊 হিসাব</button>
+      <button id="tabTx">✏️ লেখা</button>
+    </div>
+
+    <div id="paneLv">
+      <div class="introCard">
+        <div class="introT">🎬 শুরুর ভিডিও<br><span style="font-size:12px;color:#bda8e6;font-weight:400">অ্যাপ খুললেই এটা পপআপ আকারে ওপরে ভেসে উঠে নিজে চলবে। ইউজার থামাতে বা বন্ধ করতে পারবে না; শেষ হলে নিজে বন্ধ হবে। এখান থেকে যখন খুশি বদলাতে পারবেন।</span></div>
+        <div class="esub" id="introInfo" style="margin:0 0 8px"></div>
+        <video id="introPrev" controls playsinline preload="metadata" style="width:100%;max-height:30vh;background:#000;border-radius:12px;display:none"></video>
+        <div class="ebtns" style="margin-top:8px">
+          <button class="btn-blue full" id="iUp">🎬 ভিডিও বসান / বদলান</button>
+          <button class="btn-green" id="iTog">✅ চালু</button>
+          <button class="btn-red" id="iDel">🗑️ মুছুন</button>
+        </div>
+      </div>
+      <div class="astats">
+        <div class="astat"><b id="aCount">০</b>মিডিয়া বসানো</div>
+        <div class="astat"><b id="aVid">০</b>ভিডিও</div>
+        <div class="astat"><b id="aAud">০</b>ভয়েস</div>
+      </div>
+      <div class="atools">
+        <button class="btn-blue" id="aBulk">📥 একসাথে অনেক বসান</button>
+        <button class="btn-gray" id="aPin">🔑 পিন বদলান</button>
+        <button class="btn-red" id="aClear" style="grid-column:span 2">🗑️ সব ছবি/ভিডিও/ভয়েস মুছুন</button>
+      </div>
+      <div class="agrid" id="agrid"></div>
+    </div>
+
+    <div id="paneTx" style="display:none">
+      <div class="mode">এখানে বদলালে ইউজার অ্যাপের সব লেখা বদলে যাবে। বদলে নিচের “সেভ করুন” চাপুন।</div>
+      <div id="txForm"></div>
+      <div class="atools">
+        <button class="btn-green" id="txSave">💾 সেভ করুন</button>
+        <button class="btn-red" id="txReset">↩️ ডিফল্টে ফেরান</button>
+      </div>
+    </div>
+
+    <div id="paneSt" style="display:none">
+      <div class="astats">
+        <div class="astat"><b id="sUsers">০</b>মোট ইউজার</div>
+        <div class="astat"><b id="sTotal">০</b>মোট হাসির চাপ</div>
+        <div class="astat"><b id="sTop">—</b>সবচেয়ে হাসির লেভেল</div>
+      </div>
+      <div id="slist"></div>
+    </div>
+  </div>
 </div>
 
-<div id="flash"><div id="flashTxt">লেভেল ১</div></div>
-
-<!-- ৩) ছবি / ভিডিও -->
-<div id="media" class="screen">
-  <div class="top" id="mTitle">লেভেল ১ / ১০০</div>
-  <div class="stage">
-    <div class="frame" id="frame"></div>
-    <div class="cap" id="cap"></div>
+<!-- এডিটর -->
+<div id="editor" class="screen">
+  <div class="ahead">
+    <button class="btn-gray" id="eBack">⬅ তালিকা</button>
+    <div class="t" id="eTitle" style="text-align:center">লেভেল ১</div>
+    <button class="btn-gray" id="ePrev">◀</button>
+    <button class="btn-gray" id="eNext">▶</button>
   </div>
-  <div class="react"><button class="btn-main" id="reactBtn">😂 হাসি পেয়েছে!</button></div>
-  <div class="nextwrap">
-    <button class="btn-yellow" id="prevBtn">⬅ আগে</button>
-    <button class="btn-green" id="nextBtn">পরবর্তী লেভেল ➡️</button>
-  </div>
-</div>
-
-<!-- ৪) শেষ -->
-<div id="end" class="screen center">
-  <div class="box">
-    <div class="big">🏆</div>
-    <h1 id="endTitle"></h1>
-    <p id="endSub"></p>
-    <button class="btn-yellow" id="endPrev">⬅ ১০০ নম্বর লেভেলে ফিরুন</button>
-  </div>
-</div>
-
-<!-- শুরুর ভিডিও পপআপ: অ্যাপ খুললেই ওপরে ভেসে উঠবে; ইউজার থামাতে/বন্ধ করতে পারবে না -->
-<div id="intro" style="position:fixed;inset:0;z-index:200;background:rgba(10,4,24,.85);display:flex;align-items:center;justify-content:center;padding:18px">
-  <div id="introLoad" style="font-size:22px;font-weight:700">⏳</div>
-  <div id="introCard" style="display:none;position:relative;width:100%;max-width:520px;background:#000;border:4px solid #ffd200;border-radius:22px;overflow:hidden;box-shadow:0 0 40px rgba(255,210,0,.45)">
-    <video id="introVid" playsinline webkit-playsinline disablePictureInPicture disableRemotePlayback controlsList="nodownload noplaybackrate noremoteplayback" style="display:block;width:100%;max-height:78vh;object-fit:contain;pointer-events:none;background:#000"></video>
-    <div id="introSnd" style="display:none;position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:#000b;padding:8px 16px;border-radius:18px;font-size:14px;white-space:nowrap">🔊 সাউন্ডের জন্য ট্যাপ করুন</div>
+  <div class="ascroll">
+    <div class="efr" id="efr"></div>
+    <div class="ecap" id="ecap"></div>
+    <div class="esub" id="eaud"></div>
+    <div class="esub" id="ecnt"></div>
+    <div class="ebtns">
+      <button class="btn-blue full" id="eFile">🖼️🎬 ছবি / ভিডিও বসান</button>
+      <button class="btn-yellow" id="eCap">✏️ লেখা</button>
+      <button class="btn-red" id="eDel">❌ মুছুন</button>
+      <button class="btn-blue full" id="eAud">🎵 ভয়েস / রিংটোন বসান</button>
+      <button class="btn-green" id="ePlay">▶️ শুনুন</button>
+      <button class="btn-gray" id="eLoop">🔁 লুপ: বন্ধ</button>
+      <button class="btn-red full" id="eAudDel">🗑️ ভয়েস মুছুন</button>
+    </div>
   </div>
 </div>
 
+<input type="file" id="fileIntro" accept="video/*">
+<input type="file" id="fileOne" accept="image/*,video/*">
+<input type="file" id="fileMany" accept="image/*,video/*" multiple>
+<input type="file" id="fileAud" accept="audio/*">
+<div id="busy">⏳ অপেক্ষা করুন...</div>
 <div id="toast"></div>
 
 <script>
@@ -448,258 +512,265 @@ async function createStore(){
 (function(){
 "use strict";
 const bn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+const un = v => parseInt(String(v).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d)), 10);
 const $ = id => document.getElementById(id);
-const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
-
 const EMOJIS = ['🤪','😜','🤡','🥴','😝','🤭','😹','🙈','🤣','😵‍💫','🐵','🦆','🐸','👻','🤓','🥸','😬','🫠','🐔','🐧','🦄','🤠','👽','🐷','🦥'];
-const CAPS_OLD = [
- 'এই দৃশ্য দেখে না হেসে থাকা অসম্ভব!',
- 'হাসি থামাতে পারছি না 🤣',
- 'গম্ভীর থাকার চ্যালেঞ্জ — পারবেন?',
- 'হাসলে কিন্তু অ্যাপ ডিলিট! 😜',
- 'পেট ব্যথা হলে আমি দায়ী না!',
- 'একটু হাসুন, আয়ু বাড়ে!',
- 'এখনো হাসেননি? তাহলে আপনি রোবট 🤖'
-];
 
-let T = Object.assign({}, DEFAULT_TEXTS, safeJSON('hasi_texts_cache', {}));
-function setText(el, t){
-  el.textContent = '';
-  String(t).split('\n').forEach((line, i)=>{ if(i) el.appendChild(document.createElement('br')); el.appendChild(document.createTextNode(line)); });
-}
-function caps(){ const a = String(T.defaultCaps || '').split('\n').map(x=>x.trim()).filter(Boolean); return a.length ? a : CAPS_OLD; }
-function applyTexts(){
-  setText($('splashTitle'), T.splashTitle); setText($('splashSub'), T.splashSub);
-  setText($('openBtn'), T.openBtn); setText($('noBtn'), T.noBtn);
-  setText($('tapHint'), T.tapHint); setText($('gatePrev'), T.gatePrev);
-  setText($('prevBtn'), T.prevBtn);
-  setText($('endTitle'), T.endTitle); setText($('endSub'), T.endSub); setText($('endPrev'), T.endPrev);
-}
-applyTexts();
-
-let cur = 1, maxSeen = 0, busy = false;
-const cache = {};                      // লেভেল ডেটা ক্যাশ
-let reacted = safeJSON('hasi_reacted', {});
-const ring = new Audio();
-let ringing = 0;                       // কোন লেভেলের ভয়েস এখন বাজছে
-
-try{
-  cur = parseInt(localStorage.getItem('hasi_cur') || '1', 10) || 1;
-  maxSeen = parseInt(localStorage.getItem('hasi_max') || '0', 10) || 0;
-}catch(e){}
-if(cur < 1) cur = 1;
-if(maxSeen < cur - 1) maxSeen = Math.min(cur - 1, TOTAL);
-function saveMeta(){ try{ localStorage.setItem('hasi_cur', String(cur)); localStorage.setItem('hasi_max', String(maxSeen)); }catch(e){} }
-
-const ready = (async function(){
-  await createStore();
-  try{ await Store.trackUser(); }catch(e){}
-})();
-/* ---------- শুরুর ভিডিও ---------- */
-(async function(){
-  const wait = ms => new Promise(r=>setTimeout(r, ms));
-  function toSplash(){ $('intro').style.display = 'none'; }
-  let iv = null;
-  try{
-    await Promise.race([ready, wait(9000)]);
-    if(typeof Store !== 'undefined' && Store) iv = await Promise.race([Store.getIntro(), wait(6000).then(()=>null)]);
-  }catch(e){}
-  if(!iv || !iv.enabled || !iv.src){ toSplash(); return; }
-  const v = $('introVid'); let done = false;
-  function finish(){ if(done) return; done = true; try{ v.pause(); }catch(e){} toSplash(); }
-  v.addEventListener('contextmenu', e=>e.preventDefault());
-  v.onended = finish; v.onerror = finish;
-  v.onpause = ()=>{ if(!done && !v.ended){ const p = v.play(); if(p && p.catch) p.catch(()=>{}); } };
-  $('intro').addEventListener('click', ()=>{ v.muted = false; $('introSnd').style.display = 'none'; });
-  $('introLoad').style.display = 'none'; $('introCard').style.display = 'block';
-  v.src = iv.src; v.loop = false; v.muted = false;
-  const p = v.play();
-  if(p && p.catch) p.catch(()=>{
-    v.muted = true;
-    $('introSnd').style.display = 'block';
-    const q = v.play(); if(q && q.catch) q.catch(finish);
-  });
-  setTimeout(()=>{ if(!done && v.currentTime === 0) finish(); }, 12000);   // ভিডিও না চললে আটকে থাকবে না
-})();
-
-ready.then(async ()=>{
-  try{
-    const t = await Store.getTexts();
-    if(t && typeof t === 'object'){
-      T = Object.assign({}, DEFAULT_TEXTS, t); setJSON('hasi_texts_cache', t); applyTexts();
-      const a = document.querySelector('.screen.active');
-      if(a && a.id === 'gate') showGate();
-    }
-  }catch(e){}
-});
+let data = {}, stats = {users:0, reacts:{}}, eid = 1;
+let texts = Object.assign({}, DEFAULT_TEXTS);
+let intro = null;
+let pin = '1234';
+try{ pin = localStorage.getItem('hasi_admin_pin') || '1234'; }catch(e){}
+const prev = new Audio();
 
 let tt;
-function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(()=>t.classList.remove('show'), 2200); }
+function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(()=>t.classList.remove('show'), 2300); }
 function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); }
-function stopVideos(){ document.querySelectorAll('video').forEach(v=>{ try{ v.pause(); }catch(e){} }); }
-
-/* ---------- ডেটা (ক্যাশ + আগাম লোড) ---------- */
-async function lvl(n){
-  if(cache[n] !== undefined) return cache[n];
-  await ready;
-  const v = await Store.getLevel(n);
-  cache[n] = v;
-  return v;
-}
-function prefetch(n){ if(n >= 1 && n <= TOTAL) lvl(n).catch(()=>{}); }
-
-/* ---------- ভয়েস / রিংটোন ---------- */
-function stopRing(){ try{ ring.pause(); ring.currentTime = 0; }catch(e){} ringing = 0; }
-function startRing(v, n){
-  try{
-    ring.src = v.audioSrc;
-    ring.loop = !!v.loop;
-    ringing = n;
-    const p = ring.play();
-    if(p && p.catch) p.catch(()=>{});
-  }catch(e){}
-}
-function playRing(n){
-  stopRing();
-  const v = cache[n];
-  if(v !== undefined){ if(v && v.audioSrc) startRing(v, n); return; }
-  lvl(n).then(x=>{ if(cur === n && ringing !== n && x && x.audioSrc) startRing(x, n); }).catch(()=>{});
+function busy(on){ $('busy').classList.toggle('on', !!on); }
+function stopAll(){ document.querySelectorAll('video').forEach(v=>{ try{ v.pause(); }catch(e){} }); try{ prev.pause(); prev.currentTime = 0; }catch(e){} }
+async function guard(fn, okMsg){
+  busy(true);
+  try{ await fn(); if(okMsg) toast(okMsg); }
+  catch(e){ try{ console.warn(e); }catch(_){} toast('❌ কাজটি সফল হয়নি'); }
+  busy(false);
 }
 
-/* ---------- দর্শকের ফ্লো ---------- */
-function showGate(){
-  if(cur > TOTAL){ showEnd(); return; }
-  $('gateEm').textContent = EMOJIS[(cur-1) % EMOJIS.length];
-  $('gateNum').textContent = T.levelWord + ' ' + bn(cur);
-  $('gateSub').textContent = bn(cur) + ' / ' + bn(TOTAL);
-  $('gateBar').style.width = ((cur-1) / TOTAL * 100) + '%';
-  $('gatePrev').style.display = cur > 1 ? 'block' : 'none';
-  show('gate');
-  prefetch(cur); prefetch(cur + 1); prefetch(cur - 1);
-}
-function showEnd(){ stopVideos(); stopRing(); show('end'); }
+/* ---------- লগইন ---------- */
+const ready = createStore();
+$('pinOk').onclick = async ()=>{
+  if($('pinIn').value !== pin){ toast('❌ ভুল পিন'); $('pinIn').value = ''; return; }
+  await guard(async ()=>{ await ready; await reload(); }, '');
+  show('dash');
+};
+$('pinIn').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('pinOk').click(); });
+$('aExit').onclick = ()=>{ stopAll(); $('pinIn').value = ''; show('login'); };
+$('aRefresh').onclick = ()=>guard(reload, '🔄 নতুন তথ্য এসেছে');
 
-function openCurrent(){
-  if(busy) return;
-  busy = true;
-  if(cur > maxSeen){ maxSeen = cur; saveMeta(); }
-  if(ringing !== cur) playRing(cur);
-  $('flashTxt').textContent = T.levelWord + ' ' + bn(cur);
-  const fl = $('flash');
-  const clone = $('flashTxt').cloneNode(true); clone.id = 'flashTxt';
-  fl.replaceChild(clone, $('flashTxt'));
-  fl.classList.add('on');
-  setTimeout(()=>{ fl.classList.remove('on'); showMedia(); busy = false; }, 1100);
+async function reload(){
+  data = await Store.getAllLevels();
+  stats = await Store.getStats();
+  try{ texts = Object.assign({}, DEFAULT_TEXTS, await Store.getTexts()); }catch(e){}
+  try{ intro = await Store.getIntro(); }catch(e){ intro = null; }
+  renderModes(); renderGrid(); renderStats(); renderTexts(); renderIntro();
+}
+function renderModes(){
+  const m = $('modeBox');
+  if(Store.mode === 'firebase'){ m.className = 'mode fb'; m.textContent = '🟢 Firebase যুক্ত — ইউজার অ্যাপের সাথে লাইভ সংযুক্ত'; }
+  else { m.className = 'mode'; m.textContent = '📱 লোকাল মোড — ডেটা শুধু এই ব্রাউজারে সেভ হয়' + (storeNote ? ' ('+storeNote+')' : '') + '। Firebase যুক্ত করলে ইউজার অ্যাপের সাথে সংযুক্ত হবে।'; }
 }
 
-function updateReactBtn(){
-  const b = $('reactBtn');
-  if(reacted[cur]){ b.textContent = T.reactDone; b.classList.add('done'); }
-  else { b.textContent = T.reactBtn; b.classList.remove('done'); }
+/* ---------- ট্যাব ---------- */
+function tab(name){
+  [['Lv','paneLv'],['St','paneSt'],['Tx','paneTx']].forEach(([k,p])=>{
+    $('tab'+k).classList.toggle('on', k === name);
+    $(p).style.display = (k === name) ? '' : 'none';
+  });
 }
+$('tabLv').onclick = ()=>tab('Lv');
+$('tabSt').onclick = ()=>{ tab('St'); guard(async ()=>{ stats = await Store.getStats(); renderStats(); }, ''); };
+$('tabTx').onclick = ()=>tab('Tx');
 
-async function showMedia(){
-  const n = cur;
-  $('mTitle').textContent = T.levelWord + ' ' + bn(n) + ' / ' + bn(TOTAL);
-  const f = $('frame'); stopVideos(); f.innerHTML = '<div class="ph"><div class="em" style="font-size:60px">⏳</div><small>লোড হচ্ছে...</small></div>';
-  $('cap').textContent = '';
-  $('nextBtn').textContent = n >= TOTAL ? T.finishBtn : T.nextBtn;
-  updateReactBtn();
-  show('media');
-  let v = null;
-  try{ v = await lvl(n); }catch(e){}
-  if(cur !== n) return;
-  f.innerHTML = '';
-  if(v && v.mediaSrc){
-    if(v.type === 'video'){
-      const el = document.createElement('video');
-      el.src = v.mediaSrc; el.controls = true; el.loop = true;
-      el.setAttribute('playsinline', ''); el.playsInline = true;
-      f.appendChild(el);
-      const p = el.play();
-      if(p && p.catch) p.catch(()=>{ el.muted = true; const q = el.play(); if(q && q.catch) q.catch(()=>{}); toast('🔇 সাউন্ডের জন্য ভিডিওতে ট্যাপ করুন'); });
-    } else {
-      const im = document.createElement('img'); im.src = v.mediaSrc; f.appendChild(im);
-    }
+/* ---------- শুরুর ভিডিও ---------- */
+function renderIntro(){
+  const pv = $('introPrev');
+  try{ pv.pause(); }catch(e){}
+  if(intro && intro.src){
+    $('introInfo').textContent = '🎬 ' + (intro.name || 'ভিডিও বসানো আছে') + ' — ' + (intro.enabled ? 'চালু আছে' : 'বন্ধ আছে');
+    if(pv.getAttribute('data-src') !== intro.src){ pv.src = intro.src; pv.setAttribute('data-src', intro.src); }
+    pv.style.display = 'block';
+    $('iTog').textContent = intro.enabled ? '✅ চালু (বন্ধ করুন)' : '⛔ বন্ধ (চালু করুন)';
   } else {
-    const p = document.createElement('div'); p.className = 'ph';
-    p.innerHTML = '<div class="em">' + EMOJIS[(n-1) % EMOJIS.length] + '</div>';
-    f.appendChild(p);
+    $('introInfo').textContent = 'কোনো শুরুর ভিডিও নেই — অ্যাপ সরাসরি শুরু হবে।';
+    pv.removeAttribute('src'); pv.removeAttribute('data-src'); pv.style.display = 'none';
+    $('iTog').textContent = '✅ চালু';
   }
-  $('cap').textContent = (v && v.caption) ? v.caption : caps()[(n-1) % caps().length];
 }
-
-/* পরবর্তী লেভেলে যাওয়ার বাটন চাপতেই সেই লেভেলের রিংটোন বেজে উঠবে */
-function nextLevel(){
-  if(busy) return;
-  stopVideos(); stopRing();
-  cur++;
-  saveMeta();
-  if(cur > TOTAL){ showEnd(); return; }
-  showGate();
-  playRing(cur);
-}
-/* এক এক করে পেছনে — একবারে একটাই লেভেল */
-function prevLevel(){
-  if(busy) return;
-  if(cur <= 1){ toast(T.firstToast); return; }
-  stopVideos(); stopRing();
-  cur--;
-  saveMeta();
-  showGate();
-  playRing(cur);
-}
-
-/* ---------- হাসির রিঅ্যাকশন ---------- */
-function burst(){
-  const em = ['😂','🤣','😹','😆','🤪'];
-  const r = $('reactBtn').getBoundingClientRect();
-  for(let k = 0; k < 7; k++){
-    const s = document.createElement('div'); s.className = 'laugh';
-    s.textContent = em[Math.floor(Math.random() * em.length)];
-    s.style.left = (r.left + r.width / 2 + (Math.random() * 160 - 80)) + 'px';
-    s.style.top = (r.top - 10) + 'px';
-    s.style.animationDelay = (k * 60) + 'ms';
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(), 1700);
-  }
-  try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
-}
-$('reactBtn').onclick = async ()=>{
-  burst();
-  if(reacted[cur]){ toast(T.reactAgain); return; }
-  reacted[cur] = 1; setJSON('hasi_reacted', reacted);
-  updateReactBtn();
-  toast(T.reactToast);
-  try{ await ready; await Store.react(cur); }catch(e){}
+$('iUp').onclick = ()=>{ $('fileIntro').value = ''; $('fileIntro').click(); };
+$('fileIntro').onchange = e=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  guard(async ()=>{ await Store.setIntro(f); intro = await Store.getIntro(); renderIntro(); }, '🎬 শুরুর ভিডিও বসানো হয়েছে');
+};
+$('iTog').onclick = ()=>{
+  if(!intro || !intro.src){ toast('আগে ভিডিও বসান'); return; }
+  guard(async ()=>{ await Store.setIntroEnabled(!intro.enabled); intro = await Store.getIntro(); renderIntro(); }, '');
+};
+$('iDel').onclick = ()=>{
+  if(!intro || !intro.src){ toast('মোছার মতো ভিডিও নেই'); return; }
+  if(!confirm('শুরুর ভিডিও মুছবেন?')) return;
+  guard(async ()=>{ await Store.delIntro(); intro = null; renderIntro(); }, '🗑️ মুছে ফেলা হয়েছে');
 };
 
-/* ---------- বাটন ও ট্যাপ ---------- */
-$('gate').addEventListener('click', openCurrent);
-$('gatePrev').addEventListener('click', e=>{ e.stopPropagation(); prevLevel(); });
-$('prevBtn').onclick = prevLevel;
-$('nextBtn').onclick = nextLevel;
-$('endPrev').onclick = ()=>{ cur = TOTAL; saveMeta(); showGate(); playRing(cur); };
-
-$('openBtn').onclick = ()=>{
-  // মোবাইলে পরে স্বয়ংক্রিয় ভয়েস বাজানোর অনুমতি পেতে অডিও আনলক
-  try{ ring.src = SILENT; const p = ring.play(); if(p && p.then) p.then(()=>ring.pause()).catch(()=>{}); }catch(e){}
-  showGate();
+/* ---------- লেখা সম্পাদনা ---------- */
+function renderTexts(){
+  const F = $('txForm'); F.innerHTML = '';
+  TEXT_FIELDS.forEach(f=>{
+    if(f[1] === null){ const g = document.createElement('div'); g.className = 'fgrp'; g.textContent = f[0]; F.appendChild(g); return; }
+    const w = document.createElement('div'); w.className = 'fld';
+    const l = document.createElement('label'); l.textContent = f[1]; w.appendChild(l);
+    const el = f[2] ? document.createElement('textarea') : document.createElement('input');
+    if(!f[2]) el.type = 'text';
+    if(f[0] === 'defaultCaps') el.style.minHeight = '170px';
+    el.dataset.key = f[0]; el.value = texts[f[0]] != null ? texts[f[0]] : DEFAULT_TEXTS[f[0]];
+    w.appendChild(el); F.appendChild(w);
+  });
+}
+$('txSave').onclick = ()=>{
+  const o = {};
+  document.querySelectorAll('#txForm [data-key]').forEach(el=>{ o[el.dataset.key] = el.value; });
+  guard(async ()=>{ await Store.setTexts(o); texts = Object.assign({}, DEFAULT_TEXTS, o); }, '✅ লেখা সেভ হয়েছে');
 };
-$('noBtn').onclick = ()=>{ toast(T.noToast); try{ window.close(); }catch(e){} };
+$('txReset').onclick = ()=>{
+  if(!confirm('সব লেখা ডিফল্টে ফিরে যাবে। নিশ্চিত?')) return;
+  guard(async ()=>{ await Store.setTexts({}); texts = Object.assign({}, DEFAULT_TEXTS); renderTexts(); }, '↩️ ডিফল্টে ফেরানো হয়েছে');
+};
 
-/* ---------- ফোনের ব্যাক বাটন: এক ধাপে এক লেভেল ---------- */
-function pushH(){ try{ history.pushState({a:1}, '', location.href); }catch(e){} }
-pushH();
-document.addEventListener('click', pushH, true);      // প্রতি ট্যাপে নতুন এন্ট্রি, যাতে ব্যাক ঠিকভাবে ধরা যায়
-window.addEventListener('popstate', ()=>{
-  pushH();
-  const a = document.querySelector('.screen.active').id;
-  if($('intro').style.display !== 'none') return;
-  if(a === 'end'){ cur = TOTAL; saveMeta(); showGate(); playRing(cur); }
-  else if(a === 'gate' || a === 'media'){ prevLevel(); }
-  else toast(T.noBackToast);
-});
+/* ---------- লেভেল তালিকা ---------- */
+function renderGrid(){
+  const g = $('agrid'); g.innerHTML = '';
+  let count = 0, vids = 0, auds = 0;
+  const frag = document.createDocumentFragment();
+  for(let i = 1; i <= TOTAL; i++){
+    const d = data[i];
+    const t = document.createElement('div'); t.className = 'at';
+    if(d && d.mediaSrc){
+      count++; t.classList.add('has');
+      if(d.type === 'video'){ vids++; t.textContent = '🎬'; }
+      else { const im = document.createElement('img'); im.src = d.mediaSrc; im.loading = 'lazy'; t.appendChild(im); }
+    } else t.textContent = '➕';
+    const n = document.createElement('span'); n.className = 'n'; n.textContent = bn(i); t.appendChild(n);
+    if(d && d.audioSrc){ auds++; const a = document.createElement('span'); a.className = 'a'; a.textContent = '🎵'; t.appendChild(a); }
+    const rc = stats.reacts[i] || 0;
+    if(rc){ const c = document.createElement('span'); c.className = 'c'; c.textContent = '😂' + bn(rc); t.appendChild(c); }
+    t.onclick = ()=>openEditor(i);
+    frag.appendChild(t);
+  }
+  g.appendChild(frag);
+  $('aCount').textContent = bn(count); $('aVid').textContent = bn(vids); $('aAud').textContent = bn(auds);
+}
+
+/* ---------- হাসির হিসাব ---------- */
+function renderStats(){
+  $('sUsers').textContent = bn(stats.users || 0);
+  let total = 0, topN = 0, topC = 0;
+  for(let i = 1; i <= TOTAL; i++){ const c = stats.reacts[i] || 0; total += c; if(c > topC){ topC = c; topN = i; } }
+  $('sTotal').textContent = bn(total);
+  $('sTop').textContent = topN ? 'লেভেল ' + bn(topN) : '—';
+  const L = $('slist'); L.innerHTML = '';
+  const max = Math.max(1, topC);
+  for(let i = 1; i <= TOTAL; i++){
+    const c = stats.reacts[i] || 0;
+    const r = document.createElement('div'); r.className = 'srow';
+    r.innerHTML = '<div class="no">' + bn(i) + '</div><div class="bar"><i style="width:' + (c / max * 100) + '%"></i></div><div class="cnt">😂 ' + bn(c) + '</div>';
+    r.onclick = ()=>openEditor(i);
+    L.appendChild(r);
+  }
+}
+
+/* ---------- এডিটর ---------- */
+function openEditor(i){
+  eid = Math.min(TOTAL, Math.max(1, i));
+  const d = data[eid];
+  stopAll();
+  $('eTitle').textContent = 'লেভেল ' + bn(eid) + ' / ' + bn(TOTAL);
+  const f = $('efr'); f.innerHTML = '';
+  if(d && d.mediaSrc){
+    if(d.type === 'video'){ const v = document.createElement('video'); v.src = d.mediaSrc; v.controls = true; v.loop = true; v.setAttribute('playsinline', ''); v.playsInline = true; v.preload = 'metadata'; f.appendChild(v); }
+    else { const im = document.createElement('img'); im.src = d.mediaSrc; f.appendChild(im); }
+  } else f.innerHTML = '<div class="em">' + EMOJIS[(eid-1) % EMOJIS.length] + '</div>';
+  $('ecap').textContent = (d && d.caption) ? d.caption : '(কোনো লেখা নেই — ডিফল্ট লেখা দেখাবে)';
+  $('eaud').textContent = (d && d.audioSrc) ? '🎵 ভয়েস: ' + (d.audioName || 'বসানো আছে') : '🎵 কোনো ভয়েস/রিংটোন নেই';
+  $('ecnt').textContent = '😂 মোট হাসির চাপ: ' + bn(stats.reacts[eid] || 0);
+  $('eDel').style.opacity = (d && d.mediaSrc) ? 1 : .4;
+  $('eLoop').textContent = (d && d.loop) ? '🔁 লুপ: চালু' : '🔁 লুপ: বন্ধ';
+  $('ePlay').textContent = '▶️ শুনুন';
+  show('editor');
+}
+$('eBack').onclick = ()=>{ stopAll(); renderGrid(); show('dash'); };
+$('ePrev').onclick = ()=>openEditor(eid > 1 ? eid - 1 : TOTAL);
+$('eNext').onclick = ()=>openEditor(eid < TOTAL ? eid + 1 : 1);
+
+async function refreshOne(n){ const v = await Store.getLevel(n); if(v) data[n] = v; else delete data[n]; }
+
+$('eFile').onclick = ()=>{ $('fileOne').value = ''; $('fileOne').click(); };
+$('fileOne').onchange = e=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  guard(async ()=>{ await Store.setMedia(eid, f); await refreshOne(eid); openEditor(eid); }, '✅ লেভেল ' + bn(eid) + ' এ বসানো হয়েছে');
+};
+$('eDel').onclick = ()=>{
+  const d = data[eid];
+  if(!d || !d.mediaSrc){ toast('মোছার মতো কিছু নেই'); return; }
+  if(!confirm('এই লেভেলের ছবি/ভিডিও মুছবেন?')) return;
+  guard(async ()=>{ await Store.delMedia(eid); await refreshOne(eid); openEditor(eid); }, '🗑️ মুছে ফেলা হয়েছে');
+};
+$('eCap').onclick = ()=>{
+  const d = data[eid];
+  const v = prompt('এই লেভেলের হাসির লেখা:', (d && d.caption) || '');
+  if(v === null) return;
+  guard(async ()=>{ await Store.setCaption(eid, v.trim()); await refreshOne(eid); openEditor(eid); }, '✅ লেখা সেভ হয়েছে');
+};
+$('eAud').onclick = ()=>{ $('fileAud').value = ''; $('fileAud').click(); };
+$('fileAud').onchange = e=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  guard(async ()=>{ await Store.setAudio(eid, f); await refreshOne(eid); openEditor(eid); }, '🎵 লেভেল ' + bn(eid) + ' এ ভয়েস বসানো হয়েছে');
+};
+$('ePlay').onclick = ()=>{
+  const d = data[eid];
+  if(!d || !d.audioSrc){ toast('আগে ভয়েস বসান'); return; }
+  if(!prev.paused){ prev.pause(); prev.currentTime = 0; $('ePlay').textContent = '▶️ শুনুন'; return; }
+  prev.src = d.audioSrc; prev.loop = !!d.loop;
+  const p = prev.play(); if(p && p.catch) p.catch(()=>toast('🔇 চালু হয়নি, আবার চাপুন'));
+  $('ePlay').textContent = '⏹ থামান';
+  prev.onended = ()=>{ $('ePlay').textContent = '▶️ শুনুন'; };
+};
+$('eLoop').onclick = ()=>{
+  const d = data[eid];
+  if(!d || !d.audioSrc){ toast('আগে ভয়েস বসান'); return; }
+  guard(async ()=>{ await Store.setLoop(eid, !d.loop); await refreshOne(eid); openEditor(eid); }, '');
+};
+$('eAudDel').onclick = ()=>{
+  const d = data[eid];
+  if(!d || !d.audioSrc){ toast('মোছার মতো ভয়েস নেই'); return; }
+  if(!confirm('এই লেভেলের ভয়েস মুছবেন?')) return;
+  stopAll();
+  guard(async ()=>{ await Store.delAudio(eid); await refreshOne(eid); openEditor(eid); }, '🗑️ ভয়েস মুছে ফেলা হয়েছে');
+};
+
+/* ---------- টুলস ---------- */
+$('aBulk').onclick = ()=>{
+  let first = 1;
+  for(let i = 1; i <= TOTAL; i++){ if(!(data[i] && data[i].mediaSrc)){ first = i; break; } }
+  const v = prompt('কত নম্বর লেভেল থেকে শুরু হবে? (১-১০০)\nনির্বাচিত ফাইলগুলো ক্রমানুসারে বসবে।', String(first));
+  if(v === null) return;
+  const s = un(v);
+  if(!s || s < 1 || s > TOTAL){ toast('❌ সঠিক নম্বর দিন'); return; }
+  $('fileMany').dataset.start = String(s);
+  $('fileMany').value = ''; $('fileMany').click();
+};
+$('fileMany').onchange = async e=>{
+  const files = Array.from(e.target.files || []); if(!files.length) return;
+  let id = parseInt($('fileMany').dataset.start || '1', 10), ok = 0;
+  busy(true);
+  for(const f of files){
+    if(id > TOTAL) break;
+    try{ $('busy').textContent = '⏳ লেভেল ' + bn(id) + ' (' + bn(ok + 1) + '/' + bn(files.length) + ')'; await Store.setMedia(id, f); ok++; }catch(err){}
+    id++;
+  }
+  $('busy').textContent = '⏳ অপেক্ষা করুন...';
+  try{ data = await Store.getAllLevels(); }catch(err){}
+  renderGrid(); busy(false);
+  toast('✅ ' + bn(ok) + 'টি ফাইল বসানো হয়েছে');
+};
+$('aPin').onclick = ()=>{
+  const v = prompt('নতুন পিন লিখুন (কমপক্ষে ৪ অক্ষর):');
+  if(v === null) return;
+  if(v.length < 4){ toast('❌ পিন খুব ছোট'); return; }
+  pin = v; try{ localStorage.setItem('hasi_admin_pin', pin); }catch(e){}
+  toast('🔑 পিন বদলানো হয়েছে');
+};
+$('aClear').onclick = ()=>{
+  if(!confirm('সব ছবি, ভিডিও, ভয়েস ও লেখা মুছে যাবে! নিশ্চিত?')) return;
+  guard(async ()=>{ await Store.clearAll(); data = {}; renderGrid(); }, '🗑️ সব মুছে ফেলা হয়েছে');
+};
 })();
 </script>
 </body>
