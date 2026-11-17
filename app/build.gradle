@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.webapp.webappqyzfx'
+    namespace 'com.webapp.webappxkeli'
     compileSdk 34
 
     defaultConfig {
-        applicationId 'com.webapp.webappqyzfx'
+        applicationId 'com.webapp.webappxkeli'
         minSdk 21
         targetSdk 34
         versionCode 1
