@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.webapp.webappxxxxx'
+    namespace 'com.webapp.webappqyzfx'
     compileSdk 34
 
     defaultConfig {
-        applicationId 'com.webapp.webappxxxxx'
+        applicationId 'com.webapp.webappqyzfx'
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -21,4 +21,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
